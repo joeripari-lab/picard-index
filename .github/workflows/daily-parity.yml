@@ -1,0 +1,41 @@
+name: Daily Picard Index Telemetry Ingestion
+
+on:
+  schedule:
+    - cron: '10 15 * * *'  # 15:10 UTC daily (10:10 AM EST)
+  workflow_dispatch:        # Allows manual execution from GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  ingest-telemetry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Execute Parity Telemetry Engine
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python update_parity.py
+
+      - name: Commit and Push Telemetry Changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add telemetry.json
+          if git diff --staged --quiet; then
+            echo "No telemetry changes detected. Parity state is clean."
+          else
+            DAY_NUM=$(python3 -c "import json; data=json.load(open('telemetry.json')); print(data['logs'][-1]['day'])")
+            PARITY_VAL=$(python3 -c "import json; data=json.load(open('telemetry.json')); print(data['logs'][-1]['current'])")
+            git commit -m "telemetry: ingest Day ${DAY_NUM} parity state (${PARITY_VAL}%) [skip ci]"
+            git push
+          fi

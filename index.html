@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Picard Index — Temporal Parity & Reality Audit</title>
+  <style>
+    :root {
+      --lcars-orange: #FF9900;
+      --lcars-peach: #FFCC66;
+      --lcars-mauve: #CC6699;
+      --lcars-lavender: #9999FF;
+      --lcars-blue: #3366CC;
+      --lcars-sky: #6699CC;
+      --lcars-red: #FF3333;
+      --lcars-darkred: #990000;
+      --lcars-bg: #000000;
+      --lcars-panel: #111116;
+      --lcars-border: #222230;
+      --lcars-text: #FFCC66;
+      --lcars-dim: #888899;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--lcars-bg);
+      color: var(--lcars-text);
+      font-family: 'Antonio', 'Impact', 'Trebuchet MS', 'Arial Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 12px;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* LCARS Container */
+    .lcars-frame {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 12px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 800px) {
+      .lcars-frame {
+        grid-template-columns: 1fr;
+      }
+      .lcars-sidebar {
+        display: none;
+      }
+    }
+
+    /* Sidebar / LCARS Elbow */
+    .lcars-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .lcars-elbow-top {
+      background-color: var(--lcars-orange);
+      height: 100px;
+      border-top-left-radius: 40px;
+      border-bottom-left-radius: 12px;
+      padding: 10px;
+      font-size: 14px;
+      color: #000;
+      font-weight: 900;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .lcars-side-pill {
+      height: 48px;
+      border-radius: 24px 0 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 14px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #000;
+    }
+
+    .bg-mauve { background-color: var(--lcars-mauve); }
+    .bg-lavender { background-color: var(--lcars-lavender); }
+    .bg-blue { background-color: var(--lcars-blue); color: #fff; }
+    .bg-sky { background-color: var(--lcars-sky); }
+    .bg-peach { background-color: var(--lcars-peach); }
+    .bg-orange { background-color: var(--lcars-orange); }
+
+    .lcars-side-spacer {
+      flex-grow: 1;
+      background-color: var(--lcars-orange);
+      border-bottom-left-radius: 40px;
+      min-height: 80px;
+    }
+
+    /* Main Content Area */
+    .lcars-main {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Header Bar */
+    .lcars-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: var(--lcars-panel);
+      border-left: 8px solid var(--lcars-orange);
+      padding: 10px 16px;
+      border-radius: 0 16px 16px 0;
+    }
+
+    .lcars-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--lcars-orange);
+    }
+
+    .lcars-subtitle {
+      font-size: 13px;
+      color: var(--lcars-lavender);
+    }
+
+    .lcars-status-tag {
+      margin-left: auto;
+      background-color: var(--lcars-lavender);
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    /* Primary Telemetry Readout Grid */
+    .telemetry-hero {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .telemetry-hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .gauge-card {
+      background-color: var(--lcars-panel);
+      border: 2px solid var(--lcars-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .gauge-label {
+      font-size: 13px;
+      color: var(--lcars-mauve);
+      margin-bottom: 6px;
+    }
+
+    .gauge-val {
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--lcars-peach);
+      text-shadow: 0 0 20px rgba(255, 204, 102, 0.4);
+    }
+
+    .gauge-delta {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: 900;
+      padding: 4px 14px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+
+    .delta-pos { background-color: var(--lcars-lavender); color: #000; }
+    .delta-neg { background-color: var(--lcars-red); color: #fff; }
+    .delta-zero { background-color: var(--lcars-panel); color: var(--lcars-dim); }
+
+    .gauge-sub {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--lcars-dim);
+    }
+
+    /* Reality Rail / Progress Bar */
+    .rail-card {
+      background-color: var(--lcars-panel);
+      border: 2px solid var(--lcars-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .rail-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--lcars-lavender);
+      margin-bottom: 8px;
+    }
+
+    .rail-track {
+      background-color: #050508;
+      border: 1px solid var(--lcars-border);
+      height: 38px;
+      border-radius: 19px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .rail-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #990000 0%, #FF9900 65%, #FFCC66 100%);
+      width: 75.2%;
+      transition: width 0.8s ease-in-out;
+    }
+
+    .rail-marker-pfa {
+      position: absolute;
+      left: 75%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background-color: #ffffff;
+      box-shadow: 0 0 8px #ffffff;
+      z-index: 2;
+    }
+
+    .rail-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--lcars-dim);
+    }
+
+    .rail-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .meta-box {
+      background-color: #171720;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border-left: 3px solid var(--lcars-lavender);
+    }
+
+    .meta-box-label {
+      font-size: 10px;
+      color: var(--lcars-dim);
+    }
+
+    .meta-box-val {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--lcars-peach);
+    }
+
+    /* 6-Sector Neutral Wire Cards */
+    .sector-section-title {
+      font-size: 16px;
+      color: var(--lcars-orange);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .sector-section-title::before {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 8px;
+      background-color: var(--lcars-orange);
+      border-radius: 4px;
+    }
+
+    .sector-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 1000px) {
+      .sector-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 650px) {
+      .sector-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sector-card {
+      background-color: var(--lcars-panel);
+      border: 1px solid var(--lcars-border);
+      border-radius: 12px;
+      padding: 14px;
+      border-top: 4px solid var(--lcars-lavender);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sector-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sector-tag {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--lcars-peach);
+    }
+
+    .sector-delta {
+      font-size: 12px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .sector-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 11px;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #DDE;
+      line-height: 1.4;
+    }
+
+    .sector-item {
+      padding-bottom: 6px;
+      border-bottom: 1px solid #202028;
+    }
+
+    .sector-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .wire-source {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 900;
+      color: var(--lcars-mauve);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Audit & Terminal Cards */
+    .audit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 850px) {
+      .audit-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .audit-box {
+      background-color: var(--lcars-panel);
+      border: 1px solid var(--lcars-border);
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 6px solid var(--lcars-mauve);
+    }
+
+    .audit-title {
+      font-size: 13px;
+      color: var(--lcars-mauve);
+      margin-bottom: 8px;
+      font-weight: 900;
+    }
+
+    .audit-text {
+      font-size: 12px;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #EEE;
+      line-height: 1.5;
+    }
+
+    /* Historical Arc Sparkline / Timeline List */
+    .history-card {
+      background-color: var(--lcars-panel);
+      border: 1px solid var(--lcars-border);
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 6px solid var(--lcars-sky);
+    }
+
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      margin-top: 10px;
+    }
+
+    .history-table th {
+      text-align: left;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--lcars-border);
+      color: var(--lcars-sky);
+    }
+
+    .history-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #1a1a24;
+      text-transform: none;
+    }
+
+    .history-table tr:hover td {
+      background-color: #1a1a26;
+    }
+
+    .badge-event {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="lcars-frame">
+    <!-- Sidebar Controls -->
+    <div class="lcars-sidebar">
+      <div class="lcars-elbow-top">
+        <span>USS ENTERPRISE</span>
+        <span>INDEX // 1701-D</span>
+      </div>
+      <div class="lcars-side-pill bg-mauve">SECTOR 001</div>
+      <div class="lcars-side-pill bg-lavender">TELEMETRY</div>
+      <div class="lcars-side-pill bg-peach">GATEKEEPER</div>
+      <div class="lcars-side-pill bg-sky">CODEX 2026</div>
+      <div class="lcars-side-spacer"></div>
+    </div>
+
+    <!-- Main Viewport -->
+    <div class="lcars-main">
+      <!-- Header -->
+      <div class="lcars-header">
+        <div>
+          <div class="lcars-title">THE PICARD INDEX</div>
+          <div class="lcars-subtitle">TEMPORAL PARITY & REALITY AUDIT // 6-SECTOR NEUTRAL WIRE</div>
+        </div>
+        <div class="lcars-status-tag" id="status-tag">STARDATE 2026.11.20</div>
+      </div>
+
+      <!-- Hero Readout -->
+      <div class="telemetry-hero">
+        <!-- Parity Gauge -->
+        <div class="gauge-card">
+          <div class="gauge-label">CURRENT TIMELINE PARITY</div>
+          <div class="gauge-val" id="gauge-val">75.2%</div>
+          <div class="gauge-delta delta-neg" id="gauge-delta">-0.2%</div>
+          <div class="gauge-sub" id="gauge-sub">DAY 3 // BASELINE: 75.0%</div>
+        </div>
+
+        <!-- Parity Rail -->
+        <div class="rail-card">
+          <div>
+            <div class="rail-header">
+              <span>REALITY CONTINUITY SPECTRUM</span>
+              <span id="rail-state">SOVEREIGN BASELINE HOLDING</span>
+            </div>
+            <div class="rail-track">
+              <div class="rail-fill" id="rail-fill" style="width: 75.2%;"></div>
+              <div class="rail-marker-pfa" title="75.0% Picard Standard Waterline"></div>
+            </div>
+            <div class="rail-labels">
+              <span>0.0% (EPOCH 0 / HARAMBE)</span>
+              <span>75.0% (PFA ANCHOR)</span>
+              <span>100.0% (PRIME REALITY)</span>
+            </div>
+          </div>
+
+          <div class="rail-meta-grid">
+            <div class="meta-box">
+              <div class="meta-box-label">ANCHOR EVENT</div>
+              <div class="meta-box-val">PICARD'S FINAL ACT</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-box-label">WATERLINE RESET</div>
+              <div class="meta-box-val">+67.5% APPLIED</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-box-label">STRICT SCRUTINY</div>
+              <div class="meta-box-val">4-PRONG ACTIVE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6-Sector Neutral Wire Feed -->
+      <div class="sector-section-title">6-SECTOR NEUTRAL WIRE AGGREGATOR</div>
+      <div class="sector-grid" id="sector-grid">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Reality Audit & Forecast -->
+      <div class="audit-grid">
+        <div class="audit-box">
+          <div class="audit-title">4-PRONG STRICT SCRUTINY AUDIT</div>
+          <div class="audit-text" id="skeptic-audit-text">
+            Strict Scrutiny: Anthropic's $81B IPO failed Prong 1/3 for TCE (standard equity capital formation), Kyiv bridge strikes failed Prong 2 for TFE (second-order retaliation to the Crimean Bridge attack), and Fiona the hippo's death failed Prong 1/3 for TFE. Null hypothesis: AI sector stock rotation and post-summit artillery exchanges reflect routine market and conflict dynamics.
+          </div>
+        </div>
+        <div class="audit-box" style="border-left-color: var(--lcars-peach);">
+          <div class="audit-title" style="color: var(--lcars-peach);">TEMPORAL FORECAST</div>
+          <div class="audit-text" id="forecast-text">
+            Mild Pullback (-0.2%). Retaliatory strikes in Kyiv and Riyadh trimmed 0.2 points, but BepiColombo's Mercury arrival and Senate grid-permitting reform kept parity safely above the 75.0% PFA baseline.
+          </div>
+        </div>
+      </div>
+
+      <!-- Historical Codex -->
+      <div class="history-card">
+        <div class="audit-title" style="color: var(--lcars-sky);">HISTORIC PARITY CODEX (2016–2026)</div>
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>DAY</th>
+              <th>DATE</th>
+              <th>EVENT / LABEL</th>
+              <th>CLASS</th>
+              <th>PARITY</th>
+              <th>DELTA</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody">
+            <!-- Injected via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Fallback baseline state (Day 3 audit-corrected state)
+    const FALLBACK_STATE = {
+      day: 3,
+      date: "2026-11-20",
+      label: "DAY 3: MERCURY ORBIT & KYIV STRIKES",
+      current: 75.2,
+      delta: -0.2,
+      sectorFeed: [
+        { sector: "POL", delta: 0.10, headline: "U.S. Senate approves bill speeding up infrastructure permitting and requiring data centers to fund energy costs", source: "AP" },
+        { sector: "POL", delta: 0.00, headline: "Federal judge rules Agriculture Secretary's official religious emails violated constitutional neutrality", source: "AP" },
+        { sector: "ECON", delta: 0.10, headline: "Anthropic raises record $81B in Nasdaq IPO debut as broader AI semiconductor stocks pull back", source: "AP / Bloomberg" },
+        { sector: "ECON", delta: 0.00, headline: "U.S. auctions first deep-sea mining leases near American Samoa amid environmental and market scrutiny", source: "AP" },
+        { sector: "TECH", delta: -0.15, headline: "White House opposes any international AI regulatory framework at APEC summit talks in Shenzhen", source: "AFP / The Guardian" },
+        { sector: "TECH", delta: 0.00, headline: "FCC authorizes state prisons to deploy wireless signal-jamming systems against contraband cellphones", source: "AP" },
+        { sector: "SOC", delta: -0.15, headline: "Cincinnati Zoo's Fiona the hippo dies after swallowing a visitor's hat; Chase discloses customer email leak", source: "AP" },
+        { sector: "SOC", delta: 0.00, headline: "U.S. Army delays lead azide detonation in Iowa following local community and safety review", source: "NPR" },
+        { sector: "GLOB", delta: -0.25, headline: "Russia strikes three Kyiv bridges in retaliation for Crimea attack; Houthis claim missile barrage toward Riyadh", source: "Reuters / BBC News" },
+        { sector: "GLOB", delta: 0.00, headline: "Rights groups call for UN-backed sanctions after ICJ Rohingya genocide ruling against Myanmar", source: "AP" },
+        { sector: "SCI", delta: 0.15, headline: "BepiColombo dual-orbiter mission prepares for Mercury arrival after eight-year solar system journey", source: "BBC News / ESA" },
+        { sector: "SCI", delta: 0.00, headline: "Super Typhoon Xavier weakens in South Pacific after setting November intensity record east of Date Line", source: "NASA Earth Observatory" }
+      ],
+      skepticAudit: "Strict Scrutiny: Anthropic's $81B IPO failed Prong 1/3 for TCE (standard equity capital formation), Kyiv bridge strikes failed Prong 2 for TFE (second-order retaliation to the Crimean Bridge attack), and Fiona the hippo's death failed Prong 1/3 for TFE. Null hypothesis: AI sector stock rotation and post-summit artillery exchanges reflect routine market and conflict dynamics.",
+      forecast: "Mild Pullback (-0.2%). Retaliatory strikes in Kyiv and Riyadh trimmed 0.2 points, but BepiColombo's Mercury arrival and Senate grid-permitting reform kept parity safely above the 75.0% PFA baseline."
+    };
+
+    const SECTOR_NAMES = {
+      POL: "POLITICAL & INSTITUTIONAL",
+      ECON: "ECONOMIC & MARKETS",
+      TECH: "TECHNOLOGY & AI",
+      SOC: "SOCIAL & CULTURAL",
+      GLOB: "GLOBAL & GEOPOLITICAL",
+      SCI: "SCIENCE & ENVIRONMENT"
+    };
+
+    function renderTelemetry(data) {
+      const logs = data.logs || [];
+      const latest = logs.length > 0 ? logs[logs.length - 1] : FALLBACK_STATE;
+
+      // Header Stardate
+      document.getElementById('status-tag').textContent = `STARDATE ${latest.date.replace(/-/g, '.')}`;
+
+      // Gauge Readout
+      document.getElementById('gauge-val').textContent = `${latest.current.toFixed(1)}%`;
+      
+      const deltaEl = document.getElementById('gauge-delta');
+      const d = latest.delta;
+      if (d > 0) {
+        deltaEl.textContent = `+${d.toFixed(2)}%`;
+        deltaEl.className = 'gauge-delta delta-pos';
+      } else if (d < 0) {
+        deltaEl.textContent = `${d.toFixed(2)}%`;
+        deltaEl.className = 'gauge-delta delta-neg';
+      } else {
+        deltaEl.textContent = `0.00%`;
+        deltaEl.className = 'gauge-delta delta-zero';
+      }
+
+      document.getElementById('gauge-sub').textContent = `DAY ${latest.day} // BASELINE: 75.0%`;
+      document.getElementById('rail-fill').style.width = `${Math.max(0, Math.min(100, latest.current))}%`;
+
+      // Skeptic Audit & Forecast
+      document.getElementById('skeptic-audit-text').textContent = latest.skepticAudit || "Audit logging nominal.";
+      document.getElementById('forecast-text').textContent = latest.forecast || "Forecasting nominal.";
+
+      // Render 6 Sectors
+      const sectorGrid = document.getElementById('sector-grid');
+      sectorGrid.innerHTML = '';
+
+      const sectorBuckets = { POL: [], ECON: [], TECH: [], SOC: [], GLOB: [], SCI: [] };
+      const sectorDeltas = { POL: 0, ECON: 0, TECH: 0, SOC: 0, GLOB: 0, SCI: 0 };
+
+      (latest.sectorFeed || []).forEach(item => {
+        if (sectorBuckets[item.sector]) {
+          sectorBuckets[item.sector].push(item);
+          sectorDeltas[item.sector] += (item.delta || 0);
+        }
+      });
+
+      for (const [secKey, secName] of Object.entries(SECTOR_NAMES)) {
+        const items = sectorBuckets[secKey] || [];
+        const netDelta = sectorDeltas[secKey];
+        const card = document.createElement('div');
+        card.className = 'sector-card';
+
+        let deltaBadgeClass = 'delta-zero';
+        let deltaText = '0.00%';
+        if (netDelta > 0) {
+          deltaBadgeClass = 'delta-pos';
+          deltaText = `+${netDelta.toFixed(2)}%`;
+        } else if (netDelta < 0) {
+          deltaBadgeClass = 'delta-neg';
+          deltaText = `${netDelta.toFixed(2)}%`;
+        }
+
+        let itemsHtml = items.map(it => `
+          <li class="sector-item">
+            <div>${it.headline}</div>
+            <div class="wire-source">[${it.source}] ${it.delta > 0 ? '+' + it.delta.toFixed(2) + '%' : (it.delta < 0 ? it.delta.toFixed(2) + '%' : '0.00%')}</div>
+          </li>
+        `).join('');
+
+        if (!itemsHtml) {
+          itemsHtml = '<li class="sector-item"><div style="color:var(--lcars-dim);">No significant wire variance reported.</div></li>';
+        }
+
+        card.innerHTML = `
+          <div class="sector-card-header">
+            <span class="sector-tag">[${secKey}] ${secName}</span>
+            <span class="sector-delta ${deltaBadgeClass}">${deltaText}</span>
+          </div>
+          <ul class="sector-items">
+            ${itemsHtml}
+          </ul>
+        `;
+        sectorGrid.appendChild(card);
+      }
+
+      // Render History Table
+      const historyTbody = document.getElementById('history-tbody');
+      historyTbody.innerHTML = '';
+      
+      const reversedLogs = [...logs].reverse();
+      reversedLogs.forEach(entry => {
+        const tr = document.createElement('tr');
+        const dVal = entry.delta;
+        const dStr = dVal > 0 ? `+${dVal.toFixed(1)}%` : `${dVal.toFixed(1)}%`;
+        const color = dVal > 0 ? 'var(--lcars-lavender)' : (dVal < 0 ? 'var(--lcars-red)' : 'var(--lcars-dim)');
+        
+        tr.innerHTML = `
+          <td><strong>${entry.day >= 0 ? '+' + entry.day : entry.day}</strong></td>
+          <td>${entry.date}</td>
+          <td>${entry.label}</td>
+          <td><span class="badge-event" style="background:#222230; color:var(--lcars-peach);">${entry.eventType}</span></td>
+          <td><strong>${entry.current.toFixed(1)}%</strong></td>
+          <td style="color:${color}; font-weight:900;">${dStr}</td>
+        `;
+        historyTbody.appendChild(tr);
+      });
+    }
+
+    // Cache-busting fetch
+    fetch(`./telemetry.json?t=${Date.now()}`)
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(data => renderTelemetry(data))
+      .catch(err => {
+        console.warn("Using embedded fallback state:", err);
+        renderTelemetry({ logs: [FALLBACK_STATE] });
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+{
+  "project": "The Picard Index",
+  "subtitle": "Temporal Parity & Reality Audit (2016–2026 Audit-Corrected Arc)",
+  "anchor": {
+    "name": "Picard's Final Act (PFA)",
+    "mode": "dynamic_baseline_reset",
+    "targetBaseline": 75.0,
+    "divergencePoint": "2016-05-28",
+    "prePfaParity": 7.5,
+    "actualPfaDeltaApplied": 67.5,
+    "redWaveDeviationDelta": -15.0
+  },
+  "taxonomy": {
+    "PFA": {
+      "name": "Picard's Final Act",
+      "role": "Non-Repeatable Dynamic Baseline Anchor",
+      "mechanics": "Dynamically bridges the cumulative deficit from the 7.5% pre-PFA trough (+67.5% applied) to lock the timeline waterline at 75.0% and open a 14-day Correction Window."
+    },
+    "TCE": {
+      "name": "Temporal Convergence Event",
+      "role": "Post-PFA Positive Realignment Catalyst",
+      "deltaRange": [2.0, 5.0],
+      "ceiling": 100.0,
+      "windowDays": "7-14",
+      "mechanics": "Uncapped surge (+2.0% to +5.0%) pulling reality toward 100.0% Prime parity and opening a 7–14 day Convergence Window where downstream Cascade Events (+1.0% to +3.0%) can fire."
+    },
+    "TFE": {
+      "name": "Temporal Fracture Event",
+      "role": "Regressive Structural Rupture",
+      "deltaRange": [-3.0, -15.0],
+      "floor": 0.0,
+      "windowDays": "7-14",
+      "mechanics": "Uncapped plunge (-3.0% to -15.0%) dismantling core constitutional, collective-security, or systemic guardrails and opening a 7–14 day Fracture Window for Negative Cascades (-1.0% to -3.0%)."
+    }
+  },
+  "scoringRules": {
+    "standardDailyCap": 0.5,
+    "noiseFloor": 0.0,
+    "twentyFourteenTest": "Routine institutional survival, standard court procedure, and normal election turnover score 0.0% (no upward drift credit and no panic multiplier).",
+    "strictScrutinyGatekeeper": [
+      "Prong 1: 2014 Test (Baseline Survival Filter)",
+      "Prong 2: Causal Independence (No Double-Counting Downstream Reactions)",
+      "Prong 3: Irreversible Structural Permanence (Binding Law or Permanent Systemic Rupture)",
+      "Prong 4: Multi-Outlet Empirical Verification (2+ Independent Major Outlets)"
+    ],
+    "cascadingNonsensePolicyWeight": {
+      "range": [-0.25, -0.75],
+      "multiplier": 1.5,
+      "description": "Elevated drag for self-defeating, administratively contradictory policies that trigger multi-sector legal, diplomatic, or economic cascades."
+    }
+  },
+  "logs": [
+    {
+      "day": -13,
+      "date": "2016-05-28",
+      "label": "EPOCH 0: SEPARATION",
+      "eventType": "TFE_ORIGIN",
+      "previous": 100.0,
+      "current": 0.0,
+      "delta": -100.0,
+      "rawDelta": -100.0,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [
+        "EPOCH 0 RUPTURE: The Harambe Incident severs Prime timeline continuity (100.0% -> 0.0% Total Deviation)"
+      ],
+      "realignment": [],
+      "anomalies": [
+        "-100.0% [SOC] The Harambe Incident at Cincinnati Zoo severs Prime timeline continuity; parity collapses to 0.0% — (Source: AP / Reuters)"
+      ],
+      "skepticAudit": "A tragic zoo containment failure became the ultimate meme-era Rorschach test, marking the exact inflection point where internet irony displaced shared institutional reality.",
+      "forecast": "Total Deviation (0.0%). Timeline severed; algorithmic outrage era initiated."
+    },
+    {
+      "day": -12,
+      "date": "2016-11-08",
+      "label": "2016: POPULIST SHOCKWAVE",
+      "eventType": "HISTORIC_EPOCH",
+      "previous": 0.0,
+      "current": 1.5,
+      "delta": 1.5,
+      "rawDelta": 1.5,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+2.50% [POL] Peaceful constitutional transfers of power hold across Western democracies — (Source: Reuters / BBC News)"
+      ],
+      "anomalies": [
+        "-1.00% [TECH] Brexit and 2016 populist shockwave inaugurate algorithmic engagement loops and post-truth media fragmentation — (Source: AP / BBC News)"
+      ],
+      "skepticAudit": "Electoral realignments happen every generation, though 2016 permanently weaponized social feed ranking algorithms.",
+      "forecast": "Deep Deviation (1.5%). No artificial bounce; timeline remains near the floor."
+    },
+    {
+      "day": -11,
+      "date": "2018-06-12",
+      "label": "2018: SUMMIT THEATER",
+      "eventType": "HISTORIC_EPOCH",
+      "previous": 1.5,
+      "current": 2.0,
+      "delta": 0.5,
+      "rawDelta": 0.5,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+1.50% [GLOB] Singapore diplomatic opening and strong midterm civic turnout — (Source: AP / Reuters)"
+      ],
+      "anomalies": [
+        "-1.00% [ECON] U.S. withdrawal from the Iran nuclear accord (JCPOA) and escalating bilateral tariff brinkmanship — (Source: Reuters / Bloomberg)"
+      ],
+      "skepticAudit": "Photo-op diplomacy produced historic television without binding denuclearization verification.",
+      "forecast": "Stagnant Drift (2.0%). Geopolitical norms trading predictability for spectacle."
+    },
+    {
+      "day": -10,
+      "date": "2020-03-11",
+      "label": "2020: PANDEMIC LOCKDOWN",
+      "eventType": "HISTORIC_EPOCH",
+      "previous": 2.0,
+      "current": 0.5,
+      "delta": -1.5,
+      "rawDelta": -1.5,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+2.00% [SCI] Record-speed mRNA vaccine development demonstrates peak scientific mobilization — (Source: Nature / AP)"
+      ],
+      "anomalies": [
+        "-3.50% [SOC] COVID-19 global pandemic triggers worldwide lockdowns, supply-chain fracture, and acute screen-induced isolation — (Source: Reuters / WHO)"
+      ],
+      "skepticAudit": "Novel respiratory pandemics are recurring biological hazards, but synchronized global lockdowns accelerated digital atomization overnight.",
+      "forecast": "Near-Zero Floor (0.5%). Physical third places empty out across the globe."
+    },
+    {
+      "day": -9,
+      "date": "2021-01-06",
+      "label": "2021: CAPITOL & INSTITUTIONAL TEST",
+      "eventType": "HISTORIC_EPOCH",
+      "previous": 0.5,
+      "current": 2.5,
+      "delta": 2.0,
+      "rawDelta": 2.0,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+4.00% [POL] U.S. Congress certifies peaceful transfer of power hours after breach; global vaccine rollout scales to billions — (Source: AP / Reuters)"
+      ],
+      "anomalies": [
+        "-2.00% [GLOB] January 6 Capitol riot and chaotic U.S. withdrawal from Afghanistan strain institutional credibility — (Source: Reuters / BBC News)"
+      ],
+      "skepticAudit": "Constitutional certification held under extreme stress, proving baseline legal machinery remained intact without signaling broader cultural healing.",
+      "forecast": "Fragile Holding Pattern (2.5%). Guardrails hold, though partisan polarization deepens."
+    },
+    {
+      "day": -8,
+      "date": "2022-07-12",
+      "label": "2022: JWST VS. EUROPEAN WAR",
+      "eventType": "HISTORIC_EPOCH",
+      "previous": 2.5,
+      "current": 5.5,
+      "delta": 3.0,
+      "rawDelta": 3.0,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+5.50% [SCI] James Webb Space Telescope delivers first deep-field infrared images, reviving pure Picard-grade cosmic curiosity — (Source: NASA / Nature)"
+      ],
+      "anomalies": [
+        "-2.50% [GLOB] Russia's full-scale invasion of Ukraine shatters post-Cold War European security consensus — (Source: Reuters / AP)"
+      ],
+      "skepticAudit": "JWST's optical triumph was the culmination of 25 years of aerospace engineering, temporarily offering a rare unifying scientific moment.",
+      "forecast": "Bifurcated Trajectory (5.5%). Deep-space triumph offset by terrestrial land war."
+    },
+    {
+      "day": -7,
+      "date": "2023-04-20",
+      "label": "2023: THE LAST GENERATION & AI BOOM",
+      "eventType": "HISTORIC_EPOCH",
+      "previous": 5.5,
+      "current": 9.5,
+      "delta": 4.0,
+      "rawDelta": 4.0,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+6.00% [SOC] Star Trek: Picard Series Finale ('The Last Generation') airs to universal acclaim, seeding the cultural template for The Picard Standard — (Source: AP / BBC News)"
+      ],
+      "anomalies": [
+        "-2.00% [TECH] Generative AI explosion triggers synthetic media floods and October 7 Middle East war escalation — (Source: Reuters / Bloomberg)"
+      ],
+      "skepticAudit": "A beloved television finale cannot alter geopolitics on its own, yet it crystallized a shared cultural vocabulary for institutional decency.",
+      "forecast": "Pre-Wave High-Water Mark (9.5%). Cultural beacon established, still far below Prime parity."
+    },
+    {
+      "day": -6,
+      "date": "2024-11-05",
+      "label": "2024: THE RED WAVE TFE (-15%)",
+      "eventType": "TFE",
+      "previous": 9.5,
+      "current": 0.0,
+      "delta": -15.0,
+      "rawDelta": -15.0,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [
+        "TFE PROTOTYPE: 2024 Red Wave Trifecta (-15.0% Temporal Fracture Event — Floored at 0.0%)"
+      ],
+      "realignment": [],
+      "anomalies": [
+        "-15.00% [TFE] [POL] 2024 Red Wave: Republicans sweep White House, flip U.S. Senate (53-47), and retain U.S. House (220-215), wiping out post-2016 gains and engaging 1.5x Cascading Nonsense Policy multipliers — (Source: AP / Reuters)"
+      ],
+      "skepticAudit": "Post-pandemic inflation sank incumbent parties worldwide in 2024, though unified control removed institutional brakes on executive policy experiments.",
+      "forecast": "Floor Re-Engaged (0.0%). -15.0% TFE erases 8 years of incremental drift; cascading policy anomalies primed."
+    },
+    {
+      "day": -5,
+      "date": "2025-04-02",
+      "label": "APR 2025: LIBERATION DAY & 10-FOR-1",
+      "eventType": "HISTORIC_EPOCH",
+      "previous": 0.0,
+      "current": 1.0,
+      "delta": 1.0,
+      "rawDelta": 1.0,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+7.00% [ECON] Global bond markets, federal courts, and institutional trade partners mobilize rapid legal and supply-chain countermeasures — (Source: Bloomberg / Reuters)"
+      ],
+      "anomalies": [
+        "-3.75% [ECON] [1.5x Cascading Nonsense Weight] 'Liberation Day' blanket tariff formula slaps 10% levies on uninhabited penguin islands (Heard & McDonald Islands) and 145% rates on China — (Source: Reuters / AP)",
+        "-2.25% [POL] [1.5x Cascading Nonsense Weight] '10-for-1' deregulation mandate + hiring freezes create a self-defeating administrative bottleneck across federal permitting — (Source: AP / Bloomberg)"
+      ],
+      "skepticAudit": "Formulaic trade-deficit tariffs applied indiscriminately across ISO country codes demonstrated what happens when macro policy skips basic human review.",
+      "forecast": "Suppressed Baseline (1.0%). Institutional resistance barely offsets cascading tariff and regulatory contradictions."
+    },
+    {
+      "day": -4,
+      "date": "2026-02-20",
+      "label": "FEB 2026: GREENLAND & IEEPA COLLAPSE",
+      "eventType": "HISTORIC_EPOCH",
+      "previous": 1.0,
+      "current": 3.0,
+      "delta": 2.0,
+      "rawDelta": 2.0,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+8.00% [POL] U.S. Supreme Court strikes down sweeping IEEPA tariffs in Learning Resources, Inc. v. Trump (Feb 20, 2026), reasserting constitutional limits on executive taxation — (Source: AP / SCOTUS)"
+      ],
+      "anomalies": [
+        "-3.50% [GLOB] [1.5x Cascading Nonsense Weight] Jan 2026 Greenland coercion tariffs target 8 individual NATO allies despite the EU being a single customs union, triggering alliance shockwaves — (Source: Reuters / BBC News)",
+        "-2.50% [ECON] [1.5x Cascading Nonsense Weight] Post-SCOTUS tariff refund chaos: importers sue for billions in refunds while new Section 122/301 levies immediately replace struck-down duties — (Source: Bloomberg / Reuters)"
+      ],
+      "skepticAudit": "Judicial invalidation of emergency tariffs proved constitutional checks still function, even as executive workarounds prolonged trade uncertainty.",
+      "forecast": "Judicial Guardrail Hold (3.0%). Courts check executive overreach, but parity remains deeply depressed."
+    },
+    {
+      "day": -3,
+      "date": "2026-04-01",
+      "label": "APR 2026: ARTEMIS II LUNAR RETURN",
+      "eventType": "HISTORIC_EPOCH",
+      "previous": 3.0,
+      "current": 7.5,
+      "delta": 4.5,
+      "rawDelta": 4.5,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+8.00% [SCI] Artemis II launches first crewed lunar flight since 1972, setting a human distance record of 252,756 miles from Earth — (Source: NASA / AP)"
+      ],
+      "anomalies": [
+        "-3.50% [GLOB] [1.5x Cascading Nonsense Weight] U.S. military intervention in Venezuela and escalating Middle East/Iran friction compound global economic drag — (Source: Reuters / AP)"
+      ],
+      "skepticAudit": "Crewed cislunar flight demonstrated unmistakable engineering execution after years of SLS schedule delays.",
+      "forecast": "Pre-PFA Reality (7.5%). Humanity returns to deep space, yet terrestrial timeline parity remains stuck in single digits."
+    },
+    {
+      "day": -2,
+      "date": "2026-10-28",
+      "label": "PICARD'S FINAL ACT (DYNAMIC RESET -> 75%)",
+      "eventType": "PFA",
+      "previous": 7.5,
+      "current": 75.0,
+      "delta": 67.5,
+      "rawDelta": 67.5,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [
+        "PFA ANCHOR: Picard's Final Act (Dynamic Baseline Reset: +67.5% to establish 75.0% Waterline)"
+      ],
+      "realignment": [
+        "+67.50% [PFA] [SOC] Picard's Final Act: Sir Patrick Stewart passes away at 86, sparking an unprecedented global tribute to diplomacy, scientific curiosity, and basic decency—dynamically bridging the 67.5-point deficit from 7.5% to anchor the timeline at 75.0% and open a 14-day Correction Window — (Source: BBC News / AP)"
+      ],
+      "anomalies": [],
+      "skepticAudit": "Removing arbitrary fixed caps reveals the true scale of the PFA anchor: reality had drifted to 7.5%, requiring a +67.5% sovereign reset to re-establish sanity.",
+      "forecast": "DYNAMIC BASELINE RESET (75.0%). Parity snaps from 7.5% to the 75.0% Picard Standard Anchor; 14-day Correction Window active."
+    },
+    {
+      "day": -1,
+      "date": "2026-11-16",
+      "label": "NOV 2026: WINDOW CONSOLIDATION",
+      "eventType": "WINDOW_HOLD",
+      "previous": 75.0,
+      "current": 75.0,
+      "delta": 0.0,
+      "rawDelta": 0.0,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [
+        "WINDOW HOLD: November 2026 Midterm Rebuke Consolidates 75.0% PFA Anchor (2014 Test: 0.0% Net)"
+      ],
+      "realignment": [
+        "+1.00% [POL] Inside the active PFA Correction Window, U.S. voters rebuke cascading tariff and governance chaos in the November midterms — (Source: AP / Reuters)"
+      ],
+      "anomalies": [
+        "-1.00% [ECON] Lingering post-election transition friction and ongoing global trade/conflict overhang — (Source: Bloomberg / Reuters)"
+      ],
+      "skepticAudit": "Under the 2014 Test, normal democratic accountability simply holds the new 75.0% baseline steady rather than inflating it further.",
+      "forecast": "Anchor Consolidated (75.0%). Correction Window closes; strict +/- 0.5% daily monitoring cap engaged for Day 0."
+    },
+    {
+      "day": 0,
+      "date": "2026-11-17",
+      "label": "DAY 0: MONITORING BASELINE",
+      "eventType": "STANDARD_DAY",
+      "previous": 75.0,
+      "current": 74.8,
+      "delta": -0.2,
+      "rawDelta": -0.2,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+0.10% [GLOB] European diplomatic & regulatory stabilization (EU-Syria Association Agreement, UniCredit-Commerzbank clearance) — (Source: Reuters / Bloomberg)",
+        "+0.10% [SCI] Ecological & civic resilience (Humpback whale in Hudson River, Earthshot Prizes in Mumbai) — (Source: AP / BBC News)"
+      ],
+      "anomalies": [
+        "-0.20% [TECH] [Cascading Weight] Executive whiplash around Nvidia leadership & Commerce Dept export controls — (Source: Bloomberg / Reuters)",
+        "-0.15% [SOC] U.S. measles elimination status lost; FAA ground stop & JPMorgan outage — (Source: AP / NPR)",
+        "-0.05% [POL] Pentagon 9th consecutive audit failure & Persian Gulf drone strikes — (Source: Reuters / AP)"
+      ],
+      "skepticAudit": "Commerce Department export-control crackdowns are standard national-security bureaucracy responding to cloud-compute loopholes.",
+      "forecast": "Mild Drag (-0.2%). Picard's Final Act holds the baseline steady near 75%."
+    },
+    {
+      "day": 1,
+      "date": "2026-11-18",
+      "label": "DAY 1: VOYAGER 1 & SENATE SHIFT",
+      "eventType": "STANDARD_DAY",
+      "previous": 74.8,
+      "current": 75.3,
+      "delta": 0.5,
+      "rawDelta": 0.5,
+      "capped": true,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+0.30% [POL] Mary Peltola wins Alaska U.S. Senate seat (first Native American U.S. Senator from AK); Knesset elects Matan Kahana as speaker — (Source: AP / Reuters)",
+        "+0.25% [SCI] NASA's Voyager 1 reaches 1 full light-day from Earth; Alaska walrus coastal protection plan — (Source: NASA / AP)",
+        "+0.15% [GLOB] Paraguayan judge orders former president Santiago Peña transferred to military prison pending trial — (Source: Reuters / AP)"
+      ],
+      "anomalies": [
+        "-0.15% [GLOB] Tit-for-tat Persian Gulf drone and missile strikes across Qeshm Island, Kuwait, Bahrain, and Saudi Arabia — (Source: Reuters / BBC News)",
+        "-0.05% [TECH] FAA air-traffic systems still relying on floppy disks; GTA VI clears $1.5B pre-release — (Source: AP / Bloomberg)"
+      ],
+      "skepticAudit": "Voyager 1 reaching one light-day is pure 1977 orbital math, not a cosmic course-correction.",
+      "forecast": "Rebounding (+0.5% Cap Hit). Parity holds above 75.0% ahead of closed-door Shenzhen APEC talks."
+    },
+    {
+      "day": 2,
+      "date": "2026-11-19",
+      "label": "DAY 2: SCIENCE GUARDRAILS",
+      "eventType": "STANDARD_DAY",
+      "previous": 75.3,
+      "current": 75.4,
+      "delta": 0.1,
+      "rawDelta": 0.1,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+0.20% [POL] Senate committee led by Sen. Bill Cassidy rejects NSF nominee Jim O'Neill to defend scientific integrity; White House withdraws FDA nominee — (Source: AP / Nature)",
+        "+0.15% [GLOB] Senate Commerce Committee advances bipartisan MARA Act; Trump, Xi, and Putin sign joint Shenzhen peace declaration; ICJ rules Myanmar committed genocide against Rohingya — (Source: Reuters / ICJ)"
+      ],
+      "anomalies": [
+        "-0.15% [TECH] Four Maryland students sue after school AI weapon-detection system mistakes a bag of Doritos for a firearm — (Source: AP / NPR)",
+        "-0.10% [GLOB] Crimean Bridge attacked hours after Shenzhen peace declaration; Elon Musk claims 'I'm not MAGA' in narrative whiplash — (Source: Reuters / BBC News)"
+      ],
+      "skepticAudit": "Strict Scrutiny: Senate NSF rejection failed Prong 1/3 for TCE override (lame-duck confirmation math ahead of a January Democratic majority made advancing a controversial nominee unlikely anyway), so it stays capped under standard daily scoring.",
+      "forecast": "Net Positive Drift (+0.1%). Institutional guardrails in Washington edged out algorithmic chaos in Maryland, keeping The Picard Index above 75.0%."
+    },
+    {
+      "day": 3,
+      "date": "2026-11-20",
+      "label": "DAY 3: MERCURY ORBIT & KYIV STRIKES",
+      "eventType": "STANDARD_DAY",
+      "previous": 75.4,
+      "current": 75.2,
+      "delta": -0.2,
+      "rawDelta": -0.2,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+0.15% [SCI] ESA/JAXA BepiColombo spacecraft nears Mercury orbit insertion after an 8-year interplanetary voyage — (Source: BBC News / ESA)",
+        "+0.10% [POL] U.S. Senate approves bill to speed up permitting reviews and force AI data centers to pay for grid energy costs — (Source: AP)",
+        "+0.10% [ECON] Anthropic completes record $81B Nasdaq IPO debut amid broad AI chip market rotation — (Source: AP / Bloomberg)"
+      ],
+      "anomalies": [
+        "-0.25% [GLOB] Russia launches retaliatory missiles at three Kyiv bridges while Houthi forces claim cruise-missile strikes on Riyadh — (Source: Reuters / BBC News)",
+        "-0.15% [TECH] U.S. declares opposition to 'any form of globalist regulation' of AI during APEC summit diplomacy — (Source: AFP / The Guardian)",
+        "-0.15% [SOC] Cincinnati Zoo's famed hippo Fiona dies after ingesting a visitor's hat; cyberattack leaks Chase customer records — (Source: AP)"
+      ],
+      "sectorFeed": [
+        { "sector": "POL", "delta": 0.10, "headline": "U.S. Senate approves bill speeding up infrastructure permitting and requiring data centers to fund energy costs", "source": "AP" },
+        { "sector": "POL", "delta": 0.00, "headline": "Federal judge rules Agriculture Secretary's official religious emails violated constitutional neutrality (2014 Test: standard judicial review)", "source": "AP" },
+        { "sector": "ECON", "delta": 0.10, "headline": "Anthropic raises record $81B in Nasdaq IPO debut as broader AI semiconductor stocks pull back", "source": "AP / Bloomberg" },
+        { "sector": "ECON", "delta": 0.00, "headline": "U.S. auctions first deep-sea mining leases near American Samoa amid environmental and market scrutiny", "source": "AP" },
+        { "sector": "TECH", "delta": -0.15, "headline": "White House opposes any international AI regulatory framework at APEC summit talks in Shenzhen", "source": "AFP / The Guardian" },
+        { "sector": "TECH", "delta": 0.00, "headline": "FCC authorizes state prisons to deploy wireless signal-jamming systems against contraband cellphones", "source": "AP" },
+        { "sector": "SOC", "delta": -0.15, "headline": "Cincinnati Zoo's Fiona the hippo dies after swallowing a visitor's hat; Chase discloses customer email leak", "source": "AP" },
+        { "sector": "SOC", "delta": 0.00, "headline": "U.S. Army delays lead azide detonation in Iowa following local community and safety review", "source": "NPR" },
+        { "sector": "GLOB", "delta": -0.25, "headline": "Russia strikes three Kyiv bridges in retaliation for Crimea attack; Houthis claim missile barrage toward Riyadh", "source": "Reuters / BBC News" },
+        { "sector": "GLOB", "delta": 0.00, "headline": "Rights groups call for UN-backed sanctions after ICJ Rohingya genocide ruling against Myanmar", "source": "AP" },
+        { "sector": "SCI", "delta": 0.15, "headline": "BepiColombo dual-orbiter mission prepares for Mercury arrival after eight-year solar system journey", "source": "BBC News / ESA" },
+        { "sector": "SCI", "delta": 0.00, "headline": "Super Typhoon Xavier weakens in South Pacific after setting November intensity record east of Date Line", "source": "NASA Earth Observatory" }
+      ],
+      "skepticAudit": "Strict Scrutiny: Anthropic's $81B IPO failed Prong 1/3 for TCE (standard equity capital formation), Kyiv bridge strikes failed Prong 2 for TFE (second-order retaliation to the Crimean Bridge attack), and Fiona the hippo's death failed Prong 1/3 for TFE. Null hypothesis: AI sector stock rotation and post-summit artillery exchanges reflect routine market and conflict dynamics.",
+      "forecast": "Mild Pullback (-0.2%). Retaliatory strikes in Kyiv and Riyadh trimmed 0.2 points, but BepiColombo's Mercury arrival and Senate grid-permitting reform kept parity safely above the 75.0% PFA baseline."
+    }
+  ]
+}
