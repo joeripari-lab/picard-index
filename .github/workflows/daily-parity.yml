@@ -22,7 +22,8 @@ jobs:
 
       - name: Execute Parity Telemetry Engine
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.GEMINI }}
+          GEMINI: ${{ secrets.GEMINI }}
         run: |
           python update_parity.py
 

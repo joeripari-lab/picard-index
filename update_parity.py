@@ -106,7 +106,7 @@ def atomic_save_telemetry(path: str, data: dict):
         raise
 
 
-def query_gemini(api_key: str, model: str, user_prompt: str) -> dict:
+def query_gemini_single_attempt(api_key: str, model: str, user_prompt: str, use_json_mime: bool = True) -> dict:
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
     payload = {
         "contents": [
@@ -119,11 +119,12 @@ def query_gemini(api_key: str, model: str, user_prompt: str) -> dict:
         ],
         "tools": [
             {"googleSearch": {}}
-        ],
-        "generationConfig": {
+        ]
+    }
+    if use_json_mime:
+        payload["generationConfig"] = {
             "responseMimeType": "application/json"
         }
-    }
     
     req_data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
@@ -132,15 +133,9 @@ def query_gemini(api_key: str, model: str, user_prompt: str) -> dict:
         headers={"Content-Type": "application/json"}
     )
     
-    try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            resp_body = resp.read().decode("utf-8")
-            result = json.loads(resp_body)
-    except urllib.error.HTTPError as e:
-        error_msg = e.read().decode("utf-8")
-        raise RuntimeError(f"Gemini API HTTP {e.code}: {error_msg}")
-    except Exception as e:
-        raise RuntimeError(f"Gemini API request failed: {e}")
+    with urllib.request.urlopen(req, timeout=120) as resp:
+        resp_body = resp.read().decode("utf-8")
+        result = json.loads(resp_body)
 
     try:
         candidate = result["candidates"][0]
@@ -153,8 +148,49 @@ def query_gemini(api_key: str, model: str, user_prompt: str) -> dict:
     if clean_json.startswith("```"):
         clean_json = re.sub(r"^```(?:json)?\s*", "", clean_json)
         clean_json = re.sub(r"\s*```$", "", clean_json)
-    
-    return json.loads(clean_json)
+
+    try:
+        return json.loads(clean_json)
+    except json.JSONDecodeError:
+        # Fallback to regex match for outermost JSON object
+        match = re.search(r"\{[\s\S]*\}", text_content)
+        if match:
+            return json.loads(match.group(0))
+        raise
+
+
+def query_gemini(api_key: str, requested_model: str, user_prompt: str) -> dict:
+    models_to_try = [requested_model, "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+    # Deduplicate while preserving order
+    seen = set()
+    models = []
+    for m in models_to_try:
+        if m and m not in seen:
+            seen.add(m)
+            models.append(m)
+
+    last_error = None
+    for model in models:
+        for use_json_mime in [True, False]:
+            try:
+                print(f"Attempting query with model={model}, responseMimeType={use_json_mime}...")
+                return query_gemini_single_attempt(api_key, model, user_prompt, use_json_mime=use_json_mime)
+            except urllib.error.HTTPError as e:
+                err_body = e.read().decode("utf-8", errors="replace")
+                last_error = f"HTTP {e.code} ({model}): {err_body}"
+                print(f"Warning: {last_error}", file=sys.stderr)
+                # If 400 with json mime, retry immediately without json mime
+                if e.code == 400 and use_json_mime:
+                    continue
+                # If 404 (model not found), break to next model
+                if e.code == 404:
+                    break
+            except Exception as e:
+                last_error = str(e)
+                print(f"Warning: Attempt failed ({model}): {e}", file=sys.stderr)
+                break
+
+    raise RuntimeError(f"All Gemini query attempts failed. Last error: {last_error}")
 
 
 def validate_and_clamp_log_entry(entry: dict, previous_log: dict) -> dict:
@@ -217,9 +253,9 @@ def validate_and_clamp_log_entry(entry: dict, previous_log: dict) -> dict:
 
 
 def main():
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GEMINI")
     if not api_key:
-        print("ERROR: GEMINI_API_KEY environment variable is not set.", file=sys.stderr)
+        print("ERROR: Neither GEMINI_API_KEY nor GEMINI environment variable is set.", file=sys.stderr)
         sys.exit(1)
 
     model = os.environ.get("GEMINI_MODEL", DEFAULT_MODEL)
