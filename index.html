@@ -1514,15 +1514,6 @@
       }
     }
 
-      const echoBanner = document.getElementById('echoesBanner');
-      if (log.echoes && log.echoes.length > 0) {
-        echoBanner.style.display = 'block';
-        echoBanner.innerText = `ACTIVE CHRONOLOGICAL ECHO: ${log.echoes.join(' | ')}`;
-      } else {
-        echoBanner.style.display = 'none';
-      }
-    }
-
     function renderSectorFeed(log) {
       const container = document.getElementById('sectorGridContainer');
       container.innerHTML = '';
