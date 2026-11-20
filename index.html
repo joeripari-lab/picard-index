@@ -654,6 +654,10 @@
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
           ABOUT
         </button>
+        <button class="btn" id="btnChangelogModal">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+          CHANGELOG
+        </button>
         <button class="btn" id="btnImportModal">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           IMPORT JSON
@@ -979,6 +983,76 @@
 
       <div style="display:flex; justify-content:flex-end;">
         <button class="btn btn-gold" id="btnCloseAboutBtn">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================================================
+       MODAL: ENGINE CHANGELOG
+       ========================================================================== -->
+  <div class="modal-overlay" id="changelogModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">THE PICARD INDEX // ENGINE CHANGELOG</div>
+        <button class="btn" id="btnCloseChangelogModal" style="padding:0.1rem 0.4rem;">✕</button>
+      </div>
+
+      <div class="about-section" style="max-height: 60vh; overflow-y: auto; padding-right: 0.5rem;">
+        <div style="border-left: 3px solid var(--tce-cyan); padding-left: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--tce-cyan); font-family:var(--font-mono); font-size:0.85rem;">VERSION 2.2.0</strong>
+            <span class="badge badge-dim">2026-11-20</span>
+          </div>
+          <ul style="padding-left:1rem; margin-top:0.3rem; font-size:0.78rem;">
+            <li><strong>8-Sector Expansion</strong>: Added <code>[LAW]</code> (Legal & Constitutional Guardrails) with gold accent. Required minimum 16 items/day.</li>
+            <li><strong>Full-Width Restructuring</strong>: Strict Scrutiny Audit & Temporal Forecast expanded to span 100% width (<code>col-span-12</code>).</li>
+            <li><strong>About & Changelog Modals</strong>: Integrated interactive public documentation directly into dashboard.</li>
+            <li><strong>Anti-Tamper Lock v2.2.0</strong>: Checksum updated to <code>7858df1cb28d0036...</code>.</li>
+            <li>Removed obsolete reset button.</li>
+          </ul>
+        </div>
+
+        <div style="border-left: 3px solid var(--meme-purple); padding-left: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--meme-purple); font-family:var(--font-mono); font-size:0.85rem;">VERSION 2.1.0</strong>
+            <span class="badge badge-dim">2026-11-20</span>
+          </div>
+          <ul style="padding-left:1rem; margin-top:0.3rem; font-size:0.78rem;">
+            <li><strong>7-Sector Expansion</strong>: Added <code>[MEME]</code> (Pop & Internet Culture) bounded to +/-0.15% item sub-cap (no TCE/TFE override).</li>
+            <li><strong>Anti-Tampering Engine Lock</strong>: Cryptographic SHA-256 seal (<code>engine_lock.json</code>) validated in CI/CD before every run.</li>
+            <li>Added Objectivity Audit Log standard to govern rulebook modifications.</li>
+          </ul>
+        </div>
+
+        <div style="border-left: 3px solid var(--pfa-gold); padding-left: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--pfa-gold); font-family:var(--font-mono); font-size:0.85rem;">VERSION 2.0.0</strong>
+            <span class="badge badge-dim">2026-11-20</span>
+          </div>
+          <ul style="padding-left:1rem; margin-top:0.3rem; font-size:0.78rem;">
+            <li><strong>100% Serverless Shift</strong>: Migrated from self-hosted VM to GitHub Actions + GitHub Pages cron pipeline.</li>
+            <li><strong>Gemini Search Grounding</strong>: Automated 24h global news ingestion via Google Search tool.</li>
+            <li><strong>Modern Cyberpunk UI</strong>: Dark sci-fi bento grid, interactive SVG trajectory charts, HTML5 Canvas 1200x675 share card generator.</li>
+          </ul>
+        </div>
+
+        <div style="border-left: 3px solid var(--border-accent); padding-left: 0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--text-muted); font-family:var(--font-mono); font-size:0.85rem;">VERSION 1.0.0</strong>
+            <span class="badge badge-dim">2026-10-28 – 2026-11-16</span>
+          </div>
+          <ul style="padding-left:1rem; margin-top:0.3rem; font-size:0.78rem;">
+            <li><strong>Sovereign Baseline Reset</strong>: Picard's Final Act (PFA) established +67.5% level-set to 75.0% Picard Standard.</li>
+            <li>Defined 4-Prong Strict Scrutiny Gatekeeper and the 2014 Baseline Survival Test.</li>
+            <li>Established original 6 sectors (POL, ECON, TECH, SOC, GLOB, SCI).</li>
+            <li>Audited historical arc from Epoch 0 (Harambe rupture at 0.0%) through Day 3.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end;">
+        <button class="btn btn-gold" id="btnCloseChangelogBtn">CLOSE</button>
       </div>
     </div>
   </div>
@@ -1445,6 +1519,12 @@
       document.getElementById('btnAboutModal').addEventListener('click', () => aboutModal.classList.add('active'));
       document.getElementById('btnCloseAboutModal').addEventListener('click', () => aboutModal.classList.remove('active'));
       document.getElementById('btnCloseAboutBtn').addEventListener('click', () => aboutModal.classList.remove('active'));
+
+      // Changelog Modal
+      const changelogModal = document.getElementById('changelogModal');
+      document.getElementById('btnChangelogModal').addEventListener('click', () => changelogModal.classList.add('active'));
+      document.getElementById('btnCloseChangelogModal').addEventListener('click', () => changelogModal.classList.remove('active'));
+      document.getElementById('btnCloseChangelogBtn').addEventListener('click', () => changelogModal.classList.remove('active'));
 
       // Import Modal
       const importModal = document.getElementById('importModal');
