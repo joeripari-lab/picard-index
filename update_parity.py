@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 The Picard Index — Autonomous Telemetry Engine & Schema Validator
-7-Sector Aggregator with Anti-Tampering Engine Lock Enforcement.
+8-Sector Aggregator with Anti-Tampering Engine Lock Enforcement.
 """
 
 import datetime
@@ -59,7 +59,7 @@ def build_system_rules_prompt(rules: dict) -> str:
     return f"""You are the autonomous telemetry engine for The Picard Index (Temporal Parity & Reality Audit).
 Your role is to ingest the past 24 hours of global news, evaluate it under strict temporal audit rules, and produce the next day's telemetry entry in valid JSON format.
 
---- CANONICAL ENGINE RULES (LOCKED v2.1.0) ---
+--- CANONICAL ENGINE RULES (LOCKED v2.2.0) ---
 - Sovereign Anchor: Picard's Final Act (PFA) on 2026-10-28 set a non-repeatable dynamic sovereign baseline at {pfa_base}%.
 - Baseline Waterline: {pfa_base}%.
 - Standard daily cap: Delta is strictly capped between -{daily_cap}% and +{daily_cap}%. Low signal days hold at 0.0% (Noise Floor).
@@ -72,14 +72,15 @@ Any candidate attempting to bypass the +/-{daily_cap}% daily cap (such as a Temp
 3. Prong 3 — Irreversible Structural Permanence: Does it enact binding law, permanent structural reform, or irreversible systemic fallout—rather than a committee vote, PR pledge, temporary executive order, or 24-hour outrage cycle?
 4. Prong 4 — Multi-Outlet Empirical Verification: Confirmed across 2+ independent major neutral tier-1 outlets with measurable real-world impact.
 
---- 7-SECTOR NEUTRAL WIRE & CULTURE AGGREGATOR ---
-You must evaluate and cite at least 2 verified headlines per sector (at least 14 items total in sectorFeed) with tier-1 source citations (Reuters, AP, AFP, Bloomberg, BBC News, NPR, PBS, NASA, ESA, Nature, ICJ, Variety, Billboard):
-- POL: Political & Institutional
+--- 8-SECTOR NEUTRAL WIRE & CULTURE AGGREGATOR ---
+You must evaluate and cite at least 2 verified headlines per sector (at least 16 items total in sectorFeed) with tier-1 source citations (Reuters, AP, AFP, Bloomberg, BBC News, NPR, PBS, NASA, ESA, Nature, ICJ, Variety, Billboard):
+- POL: Political & Executive Governance
 - ECON: Economic & Markets
 - TECH: Technology & AI
 - SOC: Social & Cultural
 - GLOB: Global & Geopolitical
 - SCI: Science & Environment
+- LAW: Legal & Constitutional Guardrails (court rulings, judicial review, constitutional limits, ICJ/SCOTUS, rule of law)
 - MEME: Pop & Internet Culture (viral cultural phenomena, box office / entertainment milestones, major meme realignments). SUB-CAP: Each MEME item delta must be strictly bounded to +/-{meme_cap}%. MEME events CANNOT trigger a TCE or TFE.
 
 --- REQUIRED JSON OUTPUT SCHEMA ---
@@ -111,6 +112,8 @@ Output ONLY a single valid JSON object representing the new log entry with EXACT
     {{ "sector": "GLOB", "delta": <float>, "headline": "<text>", "source": "<wire>" }},
     {{ "sector": "SCI", "delta": <float>, "headline": "<text>", "source": "<wire>" }},
     {{ "sector": "SCI", "delta": <float>, "headline": "<text>", "source": "<wire>" }},
+    {{ "sector": "LAW", "delta": <float>, "headline": "<text>", "source": "<wire>" }},
+    {{ "sector": "LAW", "delta": <float>, "headline": "<text>", "source": "<wire>" }},
     {{ "sector": "MEME", "delta": <float between -{meme_cap} and +{meme_cap}>, "headline": "<text>", "source": "<wire/source>" }},
     {{ "sector": "MEME", "delta": <float between -{meme_cap} and +{meme_cap}>, "headline": "<text>", "source": "<wire/source>" }}
   ],
@@ -245,9 +248,9 @@ def validate_and_clamp_log_entry(entry: dict, previous_log: dict, canonical_rule
     if entry_date <= prev_date:
         entry["date"] = (prev_date + datetime.timedelta(days=1)).isoformat()
 
-    # 7-Sector Feed Validation
+    # 8-Sector Feed Validation
     sector_feed = entry.get("sectorFeed", [])
-    required_sectors = set(canonical_rules.get("requiredSectors", ["POL", "ECON", "TECH", "SOC", "GLOB", "SCI", "MEME"]))
+    required_sectors = set(canonical_rules.get("requiredSectors", ["POL", "ECON", "TECH", "SOC", "GLOB", "SCI", "LAW", "MEME"]))
     sectors_present = {item.get("sector") for item in sector_feed}
     
     if not required_sectors.issubset(sectors_present):
@@ -341,7 +344,7 @@ Target Date: {target_date}
 
 Generate the telemetry record for Day {target_day} strictly adhering to:
 1. The 4-Prong Strict Scrutiny Gatekeeper (apply the 2014 test rigorously).
-2. The 7-Sector Neutral Wire & Culture aggregator standard (at least 2 headlines per sector across POL, ECON, TECH, SOC, GLOB, SCI, and MEME with citations; at least 14 items in sectorFeed).
+2. The 8-Sector Neutral Wire & Culture aggregator standard (at least 2 headlines per sector across POL, ECON, TECH, SOC, GLOB, SCI, LAW, and MEME with citations; at least 16 items in sectorFeed).
 3. The MEME sector item delta sub-cap (+/- 0.15% max per item; cannot trigger TCE/TFE).
 4. The 1.5x Cascading Nonsense Policy Multiplier if applicable.
 5. Output MUST be a single raw JSON object matching the required schema.
@@ -356,7 +359,7 @@ Generate the telemetry record for Day {target_day} strictly adhering to:
 
     print(f"Atomic update: Writing Day {validated_entry['day']} -> Parity {validated_entry['current']}% (Delta: {validated_entry['delta']:+0.2f}%)")
     atomic_save_telemetry(TELEMETRY_PATH, telemetry)
-    print("Telemetry successfully updated and verified under Anti-Tampering Engine Lock v2.1.0.")
+    print("Telemetry successfully updated and verified under Anti-Tampering Engine Lock v2.2.0.")
 
 
 if __name__ == "__main__":

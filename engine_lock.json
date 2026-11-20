@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.1.0",
+  "schemaVersion": "2.2.0",
   "canonicalRules": {
     "pfaBaseline": 75.0,
     "standardDailyCap": 0.5,
@@ -14,6 +14,7 @@
       "SOC",
       "GLOB",
       "SCI",
+      "LAW",
       "MEME"
     ],
     "minItemsPerSector": 2,
@@ -32,7 +33,15 @@
       "twentyFourteenNullCheckPassed": true,
       "thirtyDayDriftStressTestPassed": true,
       "auditor": "Joe / Engine Governance"
+    },
+    {
+      "date": "2026-11-20",
+      "changeSummary": "Expanded to 8 balanced categories by adding LAW (Legal & Constitutional Guardrails); min 16 items/day total.",
+      "directionalSymmetryPassed": true,
+      "twentyFourteenNullCheckPassed": true,
+      "thirtyDayDriftStressTestPassed": true,
+      "auditor": "Joe / Engine Governance"
     }
   ],
-  "engineSha256": "7fb1dffe68b722fc4a7b7e80db5c6006268adc55a9546308a685fbb6b0c1064e"
+  "engineSha256": "7858df1cb28d0036454304a66952ceb29c7553c6b5ef726090fd920966cee309"
 }
