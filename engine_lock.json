@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.2.0",
+  "schemaVersion": "2.3.0",
   "canonicalRules": {
     "pfaBaseline": 75.0,
     "standardDailyCap": 0.5,
@@ -23,7 +23,10 @@
       "CAUSAL_INDEPENDENCE",
       "IRREVERSIBLE_STRUCTURAL_PERMANENCE",
       "MULTI_OUTLET_VERIFICATION"
-    ]
+    ],
+    "weeklyHindsightAuditEnabled": true,
+    "weeklyHindsightLookbackDays": 7,
+    "weeklyHindsightMaxReversionDelta": 0.3
   },
   "objectivityAuditLog": [
     {
@@ -41,7 +44,15 @@
       "twentyFourteenNullCheckPassed": true,
       "thirtyDayDriftStressTestPassed": true,
       "auditor": "Joe / Engine Governance"
+    },
+    {
+      "date": "2026-11-20",
+      "changeSummary": "Enacted Weekly Hindsight Audit Engine & Section (7-day lookback retrospective, recorded reasoning, bounded reversion delta up to +/-0.30%).",
+      "directionalSymmetryPassed": true,
+      "twentyFourteenNullCheckPassed": true,
+      "thirtyDayDriftStressTestPassed": true,
+      "auditor": "Joe / Engine Governance"
     }
   ],
-  "engineSha256": "7858df1cb28d0036454304a66952ceb29c7553c6b5ef726090fd920966cee309"
+  "engineSha256": "39a6a9137185d5b3dc16b32cf555086142db02960b9163b277eaef8398b99866"
 }

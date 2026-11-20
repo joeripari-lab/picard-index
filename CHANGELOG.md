@@ -4,6 +4,28 @@ All notable changes to **The Picard Index (Temporal Parity & Reality Audit)** en
 
 ---
 
+## [2.3.0] — 2026-11-20
+
+### Added
+- **Weekly Hindsight Audit Engine (7-Day Permanence Reconciliation)**:
+  - Automates 7-day retrospective audits across trailing scored developments to enforce **Prong 3 (Irreversible Structural Permanence)**.
+  - Automatically identifies whether past developments were stayed by emergency court injunctions, walked back by officials, or softened into standard speculative hype.
+  - Generates an explicit **Reversion Adjustment Delta** strictly bounded to `+/-0.30%` per cycle.
+- **Dedicated Weekly Hindsight UI Section**:
+  - Full-width interactive card displaying active audit cycles, gross wire delta, net hindsight reversion, permanence retention rate, and comprehensive recorded reasoning.
+  - **7-Day Prong 3 Audit Trail & Reversion Ledger**: Itemized list detailing each evaluated headline, its retrospective verdict (`AFFIRMED PERMANENT`, `PARTIAL REVERSION`, or `DISSOLVED`), delta adjustment, and explicit recorded justification.
+  - Visual audit pills (`⚖`) in the day selector bar highlighting weekly audit milestones.
+- **Cycle 1 Audit Record (Days 1–7)**:
+  - Recorded first official Weekly Hindsight Audit for Day 7 (Cycle 1: Days 1–7), advancing baseline parity to 76.02% with a -0.10% reversion delta trimming premature speculative noise.
+
+### Changed
+- **Anti-Tampering Engine Integrity Lock v2.3.0**:
+  - Updated `canonicalRules` in `engine_lock.json` with `weeklyHindsightAuditEnabled: true`, `weeklyHindsightLookbackDays: 7`, and `weeklyHindsightMaxReversionDelta: 0.3`.
+  - Checksum sealed to `39a6a9137185d5b3dc16b32cf555086142db02960b9163b277eaef8398b99866`.
+  - Documented third Objectivity Audit log entry in `engine_lock.json`.
+
+---
+
 ## [2.2.0] — 2026-11-20
 
 ### Added

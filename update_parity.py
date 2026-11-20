@@ -50,21 +50,50 @@ def verify_engine_lock(lock_path: str) -> dict:
     return canonical_rules
 
 
-def build_system_rules_prompt(rules: dict) -> str:
+def build_system_rules_prompt(rules: dict, is_weekly_audit: bool = False, target_day: int = 1) -> str:
     pfa_base = rules.get("pfaBaseline", 75.0)
     daily_cap = rules.get("standardDailyCap", 0.5)
     meme_cap = rules.get("memeSectorMaxItemDelta", 0.15)
     mult = rules.get("cascadingNonsenseMultiplier", 1.5)
+    rev_cap = rules.get("weeklyHindsightMaxReversionDelta", 0.30)
     
+    weekly_instructions = ""
+    if is_weekly_audit:
+        weekly_instructions = f"""
+--- WEEKLY HINDSIGHT AUDIT (CANONICAL ENGINE LOCK v2.3.0) ---
+Day {target_day} marks a 7-day Weekly Hindsight Audit milestone (Cycle {target_day // 7})!
+In addition to daily wire ingestion, you MUST perform a retrospective audit of events scored across the trailing 7 days (Days {target_day - 6} to {target_day - 1}).
+Identify whether any previously scored developments have since been stayed by courts, walked back by officials, debunked, or failed Prong 3 (Irreversible Structural Permanence) in hindsight.
+You must populate the "weeklyHindsight" object:
+  "cycle": {target_day // 7},
+  "auditedDaysRange": "Day {target_day - 6} – Day {target_day}",
+  "auditDate": "<YYYY-MM-DD>",
+  "status": "REVERSION_APPLIED" or "AFFIRMED_PERMANENT",
+  "reversionDelta": <float between -{rev_cap} and +{rev_cap}: negative if past gains were premature/dissolved, positive if structural permanence accelerated>,
+  "auditedItems": [
+    {{
+      "originalDay": <integer>,
+      "sector": "<SECTOR>",
+      "headline": "<headline>",
+      "originalDelta": <float>,
+      "verdict": "AFFIRMED_PERMANENT" | "PARTIAL_REVERSION" | "DISSOLVED",
+      "adjustment": <float>,
+      "reasoning": "<explicit detailed reasoning explaining why Prong 3 held up or failed in 7-day hindsight>"
+    }}
+  ],
+  "reasoning": "<comprehensive multi-sentence retrospective analysis evaluating whether the combined parity shift holds true over the 7-day macro window>"
+"""
+
     return f"""You are the autonomous telemetry engine for The Picard Index (Temporal Parity & Reality Audit).
 Your role is to ingest the past 24 hours of global news, evaluate it under strict temporal audit rules, and produce the next day's telemetry entry in valid JSON format.
 
---- CANONICAL ENGINE RULES (LOCKED v2.2.0) ---
+--- CANONICAL ENGINE RULES (LOCKED v2.3.0) ---
 - Sovereign Anchor: Picard's Final Act (PFA) on 2026-10-28 set a non-repeatable dynamic sovereign baseline at {pfa_base}%.
 - Baseline Waterline: {pfa_base}%.
 - Standard daily cap: Delta is strictly capped between -{daily_cap}% and +{daily_cap}%. Low signal days hold at 0.0% (Noise Floor).
 - 1.5x Cascading Nonsense Policy Multiplier: Contradictory policies receive a {mult}x negative drag (-0.25% to -0.75% base) if cleared by Strict Scrutiny.
-
+- Weekly Hindsight Audit: 7-day retrospective permanence reconciliation bounded to +/-{rev_cap}%.
+{weekly_instructions}
 --- 4-PRONG STRICT SCRUTINY GATEKEEPER ---
 Any candidate attempting to bypass the +/-{daily_cap}% daily cap (such as a Temporal Convergence Event +2.0% to +5.0%, or Temporal Fracture Event -3.0% to -15.0%) MUST CLEAR ALL FOUR PRONGS. Failing even one prong downgrades the event to capped daily scoring (<= +/-{daily_cap}%) or 0.0%:
 1. Prong 1 — The 2014 Test (Baseline Survival Filter): Would this qualify as normal constitutional governance, routine election turnover, standard court procedure, or ordinary market fluctuation in 2014? If yes -> automatic 0.0% (no bonus points for baseline survival; no panic multiplier for routine political friction).
@@ -118,7 +147,8 @@ Output ONLY a single valid JSON object representing the new log entry with EXACT
     {{ "sector": "MEME", "delta": <float between -{meme_cap} and +{meme_cap}>, "headline": "<text>", "source": "<wire/source>" }}
   ],
   "skepticAudit": "<text: detailed strict scrutiny analysis explaining why events passed or failed prongs>",
-  "forecast": "<text: concise synthesis and outlook relative to the {pfa_base}% Picard Standard baseline>"
+  "forecast": "<text: concise synthesis and outlook relative to the {pfa_base}% Picard Standard baseline>",
+  "weeklyHindsight": <null or object with cycle, auditedDaysRange, auditDate, status, reversionDelta, auditedItems, reasoning>
 }}
 """
 
@@ -283,25 +313,41 @@ def validate_and_clamp_log_entry(entry: dict, previous_log: dict, canonical_rule
     
     if event_type == "STANDARD_DAY":
         if raw_delta > cap_limit:
-            delta = cap_limit
+            daily_delta = cap_limit
             capped = True
         elif raw_delta < -cap_limit:
-            delta = -cap_limit
+            daily_delta = -cap_limit
             capped = True
         else:
-            delta = round(raw_delta, 2)
+            daily_delta = round(raw_delta, 2)
             capped = False
     else:
         # Non-standard days must still be bounded between -15.0 and +5.0
-        delta = max(-15.0, min(5.0, round(raw_delta, 2)))
+        daily_delta = max(-15.0, min(5.0, round(raw_delta, 2)))
         capped = False
 
-    entry["delta"] = delta
+    # Enforce Weekly Hindsight Reversion Delta if present
+    weekly_hindsight = entry.get("weeklyHindsight")
+    reversion_delta = 0.0
+    if weekly_hindsight and isinstance(weekly_hindsight, dict):
+        max_rev = float(canonical_rules.get("weeklyHindsightMaxReversionDelta", 0.30))
+        raw_rev = float(weekly_hindsight.get("reversionDelta", 0.0))
+        reversion_delta = max(-max_rev, min(max_rev, round(raw_rev, 2)))
+        weekly_hindsight["reversionDelta"] = reversion_delta
+        if reversion_delta != 0.0:
+            weekly_hindsight["status"] = "REVERSION_APPLIED"
+        else:
+            weekly_hindsight["status"] = "AFFIRMED_PERMANENT"
+
+    total_delta = round(daily_delta + reversion_delta, 2)
+    entry["dailyDelta"] = daily_delta
+    entry["reversionDelta"] = reversion_delta
+    entry["delta"] = total_delta
     entry["rawDelta"] = round(raw_delta, 2)
     entry["capped"] = capped
     entry["capLimit"] = cap_limit
     
-    new_current = round(prev_current + delta, 2)
+    new_current = round(prev_current + total_delta, 2)
     new_current = max(0.0, min(100.0, new_current))
     entry["current"] = new_current
 
@@ -328,14 +374,20 @@ def main():
 
     latest_log = logs[-1]
     target_day = latest_log["day"] + 1
+    is_weekly_audit = (target_day % 7 == 0) or ("--weekly-audit" in sys.argv)
     
     prev_date = datetime.date.fromisoformat(latest_log["date"])
     target_date = (prev_date + datetime.timedelta(days=1)).isoformat()
 
     print(f"Previous entry: Day {latest_log['day']} ({latest_log['date']}) @ {latest_log['current']}%")
-    print(f"Targeting: Day {target_day} ({target_date})")
+    print(f"Targeting: Day {target_day} ({target_date}) [Weekly Hindsight Audit: {'ACTIVE' if is_weekly_audit else 'OFF'}]")
 
-    system_prompt = build_system_rules_prompt(canonical_rules)
+    system_prompt = build_system_rules_prompt(canonical_rules, is_weekly_audit=is_weekly_audit, target_day=target_day)
+
+    audit_req = ""
+    if is_weekly_audit:
+        audit_req = f"""6. Perform the 7-day WEEKLY HINDSIGHT AUDIT (Cycle {target_day // 7}). Audit scored events from Days {target_day - 6} to {target_day - 1} against Prong 3 (Irreversible Structural Permanence) with explicit hindsight verdicts and reasoned adjustment deltas.
+"""
 
     user_prompt = f"""Search global tier-1 news sources and cultural indices for events occurring between {latest_log['date']} and {target_date}.
 The previous day was Day {latest_log['day']} with timeline parity at {latest_log['current']}%.
@@ -347,7 +399,7 @@ Generate the telemetry record for Day {target_day} strictly adhering to:
 2. The 8-Sector Neutral Wire & Culture aggregator standard (at least 2 headlines per sector across POL, ECON, TECH, SOC, GLOB, SCI, LAW, and MEME with citations; at least 16 items in sectorFeed).
 3. The MEME sector item delta sub-cap (+/- 0.15% max per item; cannot trigger TCE/TFE).
 4. The 1.5x Cascading Nonsense Policy Multiplier if applicable.
-5. Output MUST be a single raw JSON object matching the required schema.
+{audit_req}5. Output MUST be a single raw JSON object matching the required schema.
 """
 
     print(f"Querying Gemini ({model}) with Google Search grounding...")
@@ -359,7 +411,7 @@ Generate the telemetry record for Day {target_day} strictly adhering to:
 
     print(f"Atomic update: Writing Day {validated_entry['day']} -> Parity {validated_entry['current']}% (Delta: {validated_entry['delta']:+0.2f}%)")
     atomic_save_telemetry(TELEMETRY_PATH, telemetry)
-    print("Telemetry successfully updated and verified under Anti-Tampering Engine Lock v2.2.0.")
+    print("Telemetry successfully updated and verified under Anti-Tampering Engine Lock v2.3.0.")
 
 
 if __name__ == "__main__":
