@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "2.1.0",
+  "canonicalRules": {
+    "pfaBaseline": 75.0,
+    "standardDailyCap": 0.5,
+    "noiseFloor": 0.0,
+    "memeSectorMaxItemDelta": 0.15,
+    "memeCanTriggerTceOrTfe": false,
+    "cascadingNonsenseMultiplier": 1.5,
+    "requiredSectors": [
+      "POL",
+      "ECON",
+      "TECH",
+      "SOC",
+      "GLOB",
+      "SCI",
+      "MEME"
+    ],
+    "minItemsPerSector": 2,
+    "strictScrutinyProngs": [
+      "2014_TEST_BASELINE_FILTER",
+      "CAUSAL_INDEPENDENCE",
+      "IRREVERSIBLE_STRUCTURAL_PERMANENCE",
+      "MULTI_OUTLET_VERIFICATION"
+    ]
+  },
+  "objectivityAuditLog": [
+    {
+      "date": "2026-11-20",
+      "changeSummary": "Added 7th sector MEME (Pop & Internet Culture) bounded to +/- 0.15% max per item.",
+      "directionalSymmetryPassed": true,
+      "twentyFourteenNullCheckPassed": true,
+      "thirtyDayDriftStressTestPassed": true,
+      "auditor": "Joe / Engine Governance"
+    }
+  ],
+  "engineSha256": "7fb1dffe68b722fc4a7b7e80db5c6006268adc55a9546308a685fbb6b0c1064e"
+}

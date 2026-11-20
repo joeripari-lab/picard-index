@@ -28,7 +28,8 @@
       --tfe-rose-glow: rgba(255, 46, 99, 0.25);
       --prime-green: #00ff9d;
       --prime-green-glow: rgba(0, 255, 157, 0.25);
-      --lcars-purple: #9d50bb;
+      --meme-purple: #b366ff;
+      --meme-purple-glow: rgba(179, 102, 255, 0.25);
       
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -91,6 +92,7 @@
     .badge-tce { background: rgba(0, 229, 255, 0.15); color: var(--tce-cyan); border: 1px solid var(--tce-cyan); }
     .badge-tfe { background: rgba(255, 46, 99, 0.15); color: var(--tfe-rose); border: 1px solid var(--tfe-rose); }
     .badge-green { background: rgba(0, 255, 157, 0.15); color: var(--prime-green); border: 1px solid var(--prime-green); }
+    .badge-purple { background: rgba(179, 102, 255, 0.15); color: var(--meme-purple); border: 1px solid var(--meme-purple); }
     .badge-dim { background: rgba(139, 155, 180, 0.1); color: var(--text-muted); border: 1px solid var(--border-color); }
 
     /* Button Styling */
@@ -378,19 +380,22 @@
     .telemetry-item.neg { border-left-color: var(--tfe-rose); }
     .telemetry-item.pfa-item { border-left-color: var(--pfa-gold); background: rgba(255,170,0,0.04); }
 
-    /* 6-SECTOR NEUTRAL WIRE GRID */
+    /* 7-SECTOR NEUTRAL WIRE GRID */
     .sector-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 0.6rem;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
     }
-    @media (max-width: 1400px) {
+    @media (max-width: 1500px) {
+      .sector-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 1000px) {
       .sector-grid { grid-template-columns: repeat(3, 1fr); }
     }
-    @media (max-width: 800px) {
+    @media (max-width: 700px) {
       .sector-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 500px) {
+    @media (max-width: 450px) {
       .sector-grid { grid-template-columns: 1fr; }
     }
     .sector-card {
@@ -398,33 +403,36 @@
       border: 1px solid var(--border-color);
       border-top: 3px solid var(--tce-cyan);
       border-radius: 6px;
-      padding: 0.6rem;
+      padding: 0.55rem;
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.35rem;
+    }
+    .sector-card.meme-border {
+      border-top-color: var(--meme-purple);
     }
     .sector-card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 700;
     }
     .sector-name { color: var(--text-main); }
-    .sector-delta { font-size: 0.68rem; padding: 0.1rem 0.35rem; border-radius: 3px; }
+    .sector-delta { font-size: 0.65rem; padding: 0.1rem 0.3rem; border-radius: 3px; }
     .sector-news-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      font-size: 0.72rem;
+      gap: 0.3rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
     .sector-news-item {
-      padding-bottom: 0.35rem;
+      padding-bottom: 0.3rem;
       border-bottom: 1px solid rgba(255,255,255,0.04);
-      line-height: 1.35;
+      line-height: 1.3;
     }
     .sector-news-item:last-child {
       border-bottom: none;
@@ -433,7 +441,7 @@
     .sector-source {
       display: inline-block;
       font-family: var(--font-mono);
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       color: var(--pfa-gold);
       margin-top: 0.15rem;
     }
@@ -553,7 +561,7 @@
       <div class="brand-title">
         <div>
           <h1>THE PICARD INDEX <span style="color:var(--text-muted)">//</span> TEMPORAL PARITY</h1>
-          <div class="sub">AUTONOMOUS REALITY AUDIT PIPELINE • 6-SECTOR NEUTRAL WIRE • AUDIT-CORRECTED CONTINUITY</div>
+          <div class="sub">7-SECTOR NEUTRAL WIRE & CULTURE AGGREGATOR • ANTI-TAMPER ENGINE LOCK v2.1.0</div>
         </div>
       </div>
 
@@ -653,7 +661,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--prime-green)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             TIMELINE VITAL STATS
           </span>
-          <span class="badge badge-dim" id="activeWindowBadge">STANDARD MONITORING</span>
+          <span class="badge badge-purple" id="activeWindowBadge">LOCK v2.1.0</span>
         </div>
 
         <div class="vitals-grid">
@@ -675,24 +683,24 @@
           </div>
         </div>
 
-        <div style="background: rgba(0,229,255,0.03); border: 1px solid var(--border-accent); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-mono);">
-          <div style="color: var(--tce-cyan); font-weight: bold; margin-bottom: 0.1rem;">WINDOW STATUS</div>
-          <div style="color: var(--text-muted); font-size: 0.65rem;" id="windowStatusDetail">Standard Daily Monitoring active (+/-0.5% cap). 4-Prong Strict Scrutiny engaged.</div>
+        <div style="background: rgba(179,102,255,0.03); border: 1px solid var(--border-accent); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-mono);">
+          <div style="color: var(--meme-purple); font-weight: bold; margin-bottom: 0.1rem;">ENGINE LOCK</div>
+          <div style="color: var(--text-muted); font-size: 0.65rem;" id="windowStatusDetail">7 Sectors Active. MEME sub-cap +/-0.15% locked by SHA-256 integrity check.</div>
         </div>
       </div>
 
     </div>
 
     <!-- ==========================================================================
-         ROW 2: 6-SECTOR NEUTRAL WIRE AGGREGATOR
+         ROW 2: 7-SECTOR NEUTRAL WIRE & CULTURE AGGREGATOR
          ========================================================================== -->
     <div class="card col-span-12">
       <div class="card-header">
         <span class="card-title" style="color: var(--tce-cyan);">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          6-SECTOR NEUTRAL WIRE AGGREGATOR (TIER-1 VERIFIED CITATIONS)
+          7-SECTOR NEUTRAL WIRE & CULTURE AGGREGATOR (TIER-1 CITATIONS & MEME TRACKER)
         </span>
-        <span class="badge badge-dim" id="sectorFeedCountBadge">12 WIRE ITEMS</span>
+        <span class="badge badge-dim" id="sectorFeedCountBadge">14 WIRE ITEMS</span>
       </div>
 
       <div class="sector-grid" id="sectorGridContainer">
@@ -773,7 +781,7 @@
         <div class="card-header">
           <span class="card-title">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--tce-cyan)" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-            ENGINE CODEX & TAXONOMY
+            ENGINE CODEX & CANONICAL LOCK
           </span>
         </div>
 
@@ -781,25 +789,25 @@
           <div style="border:1px solid var(--pfa-gold); background:rgba(255,170,0,0.03); padding:0.35rem 0.5rem; border-radius:4px;">
             <div style="display:flex; justify-content:space-between; font-weight:bold; color:var(--pfa-gold); font-family:var(--font-mono);">
               <span>[PFA] PICARD'S FINAL ACT</span>
-              <span>DYNAMIC RESET</span>
+              <span>75.0% BASELINE</span>
             </div>
-            <div style="color:var(--text-muted); margin-top:0.1rem;">Dynamically bridges cumulative timeline deficit (+67.5% applied) to lock 75.0% baseline waterline.</div>
+            <div style="color:var(--text-muted); margin-top:0.1rem;">Sovereign baseline reset locking timeline waterline at 75.0%. Standard +/-0.5% cap active.</div>
+          </div>
+
+          <div style="border:1px solid var(--meme-purple); background:rgba(179,102,255,0.03); padding:0.35rem 0.5rem; border-radius:4px;">
+            <div style="display:flex; justify-content:space-between; font-weight:bold; color:var(--meme-purple); font-family:var(--font-mono);">
+              <span>[MEME] POP & CULTURE</span>
+              <span>+/-0.15% SUB-CAP</span>
+            </div>
+            <div style="color:var(--text-muted); margin-top:0.1rem;">Captures viral Internet/pop culture drag & boosts. Bounded sub-cap; cannot trigger TCE/TFE.</div>
           </div>
 
           <div style="border:1px solid var(--tce-cyan); background:rgba(0,229,255,0.03); padding:0.35rem 0.5rem; border-radius:4px;">
             <div style="display:flex; justify-content:space-between; font-weight:bold; color:var(--tce-cyan); font-family:var(--font-mono);">
-              <span>[TCE] TEMPORAL CONVERGENCE</span>
+              <span>[TCE] CONVERGENCE</span>
               <span>+2.0% TO +5.0%</span>
             </div>
-            <div style="color:var(--text-muted); margin-top:0.1rem;">Positive surge pulling timeline toward Prime parity. Unlocks downstream cascade realignments.</div>
-          </div>
-
-          <div style="border:1px solid var(--tfe-rose); background:rgba(255,46,99,0.03); padding:0.35rem 0.5rem; border-radius:4px;">
-            <div style="display:flex; justify-content:space-between; font-weight:bold; color:var(--tfe-rose); font-family:var(--font-mono);">
-              <span>[TFE] TEMPORAL FRACTURE</span>
-              <span>-3.0% TO -15.0%</span>
-            </div>
-            <div style="color:var(--text-muted); margin-top:0.1rem;">Regressive structural rupture dismantling constitutional/security guardrails.</div>
+            <div style="color:var(--text-muted); margin-top:0.1rem;">Requires passing all 4 Prongs of Strict Scrutiny before bypassing daily cap.</div>
           </div>
 
           <div style="border:1px solid var(--border-accent); background:rgba(255,255,255,0.01); padding:0.35rem 0.5rem; border-radius:4px;">
@@ -904,7 +912,8 @@
       TECH: "TECHNOLOGY & AI",
       SOC: "SOCIAL & CULTURAL",
       GLOB: "GLOBAL & GEOPOLITICAL",
-      SCI: "SCIENCE & ENVIRONMENT"
+      SCI: "SCIENCE & ENVIRONMENT",
+      MEME: "POP & INTERNET CULTURE"
     };
 
     const ECHO_TROPES = [
@@ -921,10 +930,9 @@
 
     let currentData = null;
     let selectedDayIndex = 0;
-    let chartViewMode = 'POST-PFA'; // default to POST-PFA for readability
+    let chartViewMode = 'POST-PFA';
 
     document.addEventListener('DOMContentLoaded', async () => {
-      // 1. Always prioritize fetching latest telemetry.json from live repository
       try {
         const resp = await fetch(`./telemetry.json?t=${Date.now()}`);
         if (resp.ok) {
@@ -935,7 +943,6 @@
         console.warn("Could not fetch remote telemetry.json, checking localStorage:", e);
       }
 
-      // 2. Check localStorage fallback if remote fetch failed
       if (!currentData || !currentData.logs) {
         const saved = SafeStorage.getItem('picard_index_telemetry');
         if (saved) {
@@ -943,7 +950,6 @@
         }
       }
 
-      // 3. Fallback baseline if totally offline
       if (!currentData || !currentData.logs) {
         currentData = {
           project: "The Picard Index",
@@ -982,7 +988,6 @@
       renderTropes();
     }
 
-    // Render Navigation Pills
     function renderDayPills() {
       const container = document.getElementById('dayPillContainer');
       container.innerHTML = '';
@@ -1006,19 +1011,16 @@
         container.appendChild(pill);
       });
 
-      // Scroll container so the active pill is visible
       const activePill = container.querySelector('.day-pill.active');
       if (activePill) {
         activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
     }
 
-    // Render Active Day Details across all panels
     function renderActiveDay() {
       const log = currentData.logs[selectedDayIndex];
       if (!log) return;
 
-      // Card 1: Core Readout
       document.getElementById('currentParityVal').innerText = `${log.current.toFixed(2)}%`;
       
       const deltaElem = document.getElementById('currentDeltaVal');
@@ -1038,20 +1040,16 @@
 
       document.getElementById('activeDayLabel').innerText = `${log.day >= 0 ? 'DAY ' + log.day : 'EPOCH ' + log.day} // ${log.date}: ${log.label}`;
 
-      // Card 3: Vital Stats
       const epoch0Date = new Date('2016-05-28');
       const targetDate = new Date(log.date);
       const diffDays = Math.max(0, Math.floor((targetDate - epoch0Date) / (1000 * 60 * 60 * 24)));
       document.getElementById('vitalDaysSince').innerText = `${diffDays.toLocaleString()}d`;
 
-      const latestLog = currentData.logs[currentData.logs.length - 1];
       const driftFromPfa = (log.current - 75.0);
       document.getElementById('vitalPostPfaDrift').innerText = `${driftFromPfa >= 0 ? '+' : ''}${driftFromPfa.toFixed(2)}%`;
 
-      // 6-Sector Neutral Wire Feed
       renderSectorFeed(log);
 
-      // Signals List
       const sigList = document.getElementById('realignmentList');
       sigList.innerHTML = '';
       if (log.realignment && log.realignment.length > 0) {
@@ -1066,7 +1064,6 @@
       }
       document.getElementById('signalCountBadge').innerText = `${log.realignment ? log.realignment.length : 0} SIGNALS`;
 
-      // Anomalies List
       const anomList = document.getElementById('anomalyList');
       anomList.innerHTML = '';
       if (log.anomalies && log.anomalies.length > 0) {
@@ -1081,11 +1078,9 @@
       }
       document.getElementById('anomalyCountBadge').innerText = `${log.anomalies ? log.anomalies.length : 0} ANOMALIES`;
 
-      // Audit & Forecast
       document.getElementById('auditText').innerText = log.skepticAudit || 'No audit comments recorded.';
       document.getElementById('forecastText').innerText = log.forecast || 'No forecast recorded.';
 
-      // Echoes Banner
       const echoBanner = document.getElementById('echoesBanner');
       if (log.echoes && log.echoes.length > 0) {
         echoBanner.style.display = 'block';
@@ -1095,19 +1090,18 @@
       }
     }
 
-    // Render 6 Sectors
     function renderSectorFeed(log) {
       const container = document.getElementById('sectorGridContainer');
       container.innerHTML = '';
 
-      const sectorBuckets = { POL: [], ECON: [], TECH: [], SOC: [], GLOB: [], SCI: [] };
-      const sectorDeltas = { POL: 0, ECON: 0, TECH: 0, SOC: 0, GLOB: 0, SCI: 0 };
+      const sectorBuckets = { POL: [], ECON: [], TECH: [], SOC: [], GLOB: [], SCI: [], MEME: [] };
+      const sectorDeltas = { POL: 0, ECON: 0, TECH: 0, SOC: 0, GLOB: 0, SCI: 0, MEME: 0 };
 
       const feed = log.sectorFeed || [];
-      document.getElementById('sectorFeedCountBadge').innerText = `${feed.length} WIRE ITEMS`;
+      document.getElementById('sectorFeedCountBadge').innerText = `${feed.length} WIRE & CULTURE ITEMS`;
 
       feed.forEach(item => {
-        if (sectorBuckets[item.sector]) {
+        if (sectorBuckets[item.sector] !== undefined) {
           sectorBuckets[item.sector].push(item);
           sectorDeltas[item.sector] += (item.delta || 0);
         }
@@ -1117,12 +1111,12 @@
         const items = sectorBuckets[secKey] || [];
         const netDelta = sectorDeltas[secKey];
         const card = document.createElement('div');
-        card.className = 'sector-card';
+        card.className = `sector-card ${secKey === 'MEME' ? 'meme-border' : ''}`;
 
         let deltaBadgeClass = 'badge-dim';
         let deltaText = '0.00%';
         if (netDelta > 0) {
-          deltaBadgeClass = 'badge-green';
+          deltaBadgeClass = secKey === 'MEME' ? 'badge-purple' : 'badge-green';
           deltaText = `+${netDelta.toFixed(2)}%`;
         } else if (netDelta < 0) {
           deltaBadgeClass = 'badge-tfe';
@@ -1153,7 +1147,6 @@
       }
     }
 
-    // Render SVG Trajectory Chart
     function renderChart() {
       const svg = document.getElementById('trajectorySvg');
       svg.innerHTML = '';
@@ -1180,7 +1173,6 @@
       document.getElementById('chartMaxVal').innerText = `${maxCurr.toFixed(1)}%`;
       document.getElementById('chartNetVal').innerText = `${netDrift >= 0 ? '+' : ''}${netDrift.toFixed(1)}%`;
 
-      // 75% Reference Line
       const y75 = height - (75 / 100) * (height - 20) - 10;
       const line75 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       line75.setAttribute('x1', 0);
@@ -1262,7 +1254,6 @@
       });
     }
 
-    // Render Trope Matrix
     function renderTropes() {
       const container = document.getElementById('tropeGridContainer');
       container.innerHTML = '';
@@ -1281,7 +1272,6 @@
       });
     }
 
-    // Setup All Event Listeners
     function setupEventListeners() {
       document.getElementById('toggleChartArc').addEventListener('click', () => {
         chartViewMode = 'FULL';
@@ -1297,7 +1287,6 @@
         renderChart();
       });
 
-      // Modals
       const importModal = document.getElementById('importModal');
       document.getElementById('btnImportModal').addEventListener('click', () => importModal.classList.add('active'));
       document.getElementById('btnCloseImportModal').addEventListener('click', () => importModal.classList.remove('active'));
@@ -1397,7 +1386,6 @@
         }
       });
 
-      // Share Modal & Canvas
       const shareModal = document.getElementById('shareModal');
       document.getElementById('btnShareModal').addEventListener('click', () => {
         renderShareCanvas();
@@ -1433,7 +1421,6 @@
       });
     }
 
-    // Render HTML5 Canvas PNG Share Card (1200x675)
     function renderShareCanvas() {
       const canvas = document.getElementById('shareCanvas');
       const ctx = canvas.getContext('2d');

@@ -20,6 +20,19 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Verify Anti-Tampering Engine Lock
+        run: |
+          python -c "
+          import hashlib, json, sys
+          lock = json.load(open('engine_lock.json'))
+          computed = hashlib.sha256(json.dumps(lock['canonicalRules'], sort_keys=True).encode('utf-8')).hexdigest()
+          expected = lock.get('engineSha256')
+          if computed != expected:
+              print(f'CRITICAL: Engine lock hash mismatch! Expected {expected}, got {computed}', file=sys.stderr)
+              sys.exit(1)
+          print(f'Anti-Tampering Engine Lock Verified (SHA-256: {computed[:16]}...)')
+          "
+
       - name: Execute Parity Telemetry Engine
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.GEMINI }}
