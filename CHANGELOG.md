@@ -26,6 +26,7 @@ All notable changes to **The Picard Index (Temporal Parity & Reality Audit)** en
 
 ### Removed
 - Removed the obsolete reset button from the top navigation bar.
+- Removed obsolete `IMPORT JSON` and `EXPORT` functions, drop zone, and simulation handlers from the dashboard to enforce pure read-only public telemetry verification.
 
 ---
 
