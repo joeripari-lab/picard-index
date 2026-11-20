@@ -19,7 +19,10 @@
     "TCE": {
       "name": "Temporal Convergence Event",
       "role": "Post-PFA Positive Realignment Catalyst",
-      "deltaRange": [2.0, 5.0],
+      "deltaRange": [
+        2.0,
+        5.0
+      ],
       "ceiling": 100.0,
       "windowDays": "7-14",
       "mechanics": "Uncapped surge (+2.0% to +5.0%) pulling reality toward 100.0% Prime parity and opening a 7–14 day Convergence Window where downstream Cascade Events (+1.0% to +3.0%) can fire."
@@ -27,7 +30,10 @@
     "TFE": {
       "name": "Temporal Fracture Event",
       "role": "Regressive Structural Rupture",
-      "deltaRange": [-3.0, -15.0],
+      "deltaRange": [
+        -3.0,
+        -15.0
+      ],
       "floor": 0.0,
       "windowDays": "7-14",
       "mechanics": "Uncapped plunge (-3.0% to -15.0%) dismantling core constitutional, collective-security, or systemic guardrails and opening a 7–14 day Fracture Window for Negative Cascades (-1.0% to -3.0%)."
@@ -44,7 +50,10 @@
       "Prong 4: Multi-Outlet Empirical Verification (2+ Independent Major Outlets)"
     ],
     "cascadingNonsensePolicyWeight": {
-      "range": [-0.25, -0.75],
+      "range": [
+        -0.25,
+        -0.75
+      ],
       "multiplier": 1.5,
       "description": "Elevated drag for self-defeating, administratively contradictory policies that trigger multi-sector legal, diplomatic, or economic cascades."
     }
@@ -421,21 +430,184 @@
         "-0.15% [SOC] Cincinnati Zoo's famed hippo Fiona dies after ingesting a visitor's hat; cyberattack leaks Chase customer records — (Source: AP)"
       ],
       "sectorFeed": [
-        { "sector": "POL", "delta": 0.10, "headline": "U.S. Senate approves bill speeding up infrastructure permitting and requiring data centers to fund energy costs", "source": "AP" },
-        { "sector": "POL", "delta": 0.00, "headline": "Federal judge rules Agriculture Secretary's official religious emails violated constitutional neutrality (2014 Test: standard judicial review)", "source": "AP" },
-        { "sector": "ECON", "delta": 0.10, "headline": "Anthropic raises record $81B in Nasdaq IPO debut as broader AI semiconductor stocks pull back", "source": "AP / Bloomberg" },
-        { "sector": "ECON", "delta": 0.00, "headline": "U.S. auctions first deep-sea mining leases near American Samoa amid environmental and market scrutiny", "source": "AP" },
-        { "sector": "TECH", "delta": -0.15, "headline": "White House opposes any international AI regulatory framework at APEC summit talks in Shenzhen", "source": "AFP / The Guardian" },
-        { "sector": "TECH", "delta": 0.00, "headline": "FCC authorizes state prisons to deploy wireless signal-jamming systems against contraband cellphones", "source": "AP" },
-        { "sector": "SOC", "delta": -0.15, "headline": "Cincinnati Zoo's Fiona the hippo dies after swallowing a visitor's hat; Chase discloses customer email leak", "source": "AP" },
-        { "sector": "SOC", "delta": 0.00, "headline": "U.S. Army delays lead azide detonation in Iowa following local community and safety review", "source": "NPR" },
-        { "sector": "GLOB", "delta": -0.25, "headline": "Russia strikes three Kyiv bridges in retaliation for Crimea attack; Houthis claim missile barrage toward Riyadh", "source": "Reuters / BBC News" },
-        { "sector": "GLOB", "delta": 0.00, "headline": "Rights groups call for UN-backed sanctions after ICJ Rohingya genocide ruling against Myanmar", "source": "AP" },
-        { "sector": "SCI", "delta": 0.15, "headline": "BepiColombo dual-orbiter mission prepares for Mercury arrival after eight-year solar system journey", "source": "BBC News / ESA" },
-        { "sector": "SCI", "delta": 0.00, "headline": "Super Typhoon Xavier weakens in South Pacific after setting November intensity record east of Date Line", "source": "NASA Earth Observatory" }
+        {
+          "sector": "POL",
+          "delta": 0.1,
+          "headline": "U.S. Senate approves bill speeding up infrastructure permitting and requiring data centers to fund energy costs",
+          "source": "AP"
+        },
+        {
+          "sector": "POL",
+          "delta": 0.0,
+          "headline": "Federal judge rules Agriculture Secretary's official religious emails violated constitutional neutrality (2014 Test: standard judicial review)",
+          "source": "AP"
+        },
+        {
+          "sector": "ECON",
+          "delta": 0.1,
+          "headline": "Anthropic raises record $81B in Nasdaq IPO debut as broader AI semiconductor stocks pull back",
+          "source": "AP / Bloomberg"
+        },
+        {
+          "sector": "ECON",
+          "delta": 0.0,
+          "headline": "U.S. auctions first deep-sea mining leases near American Samoa amid environmental and market scrutiny",
+          "source": "AP"
+        },
+        {
+          "sector": "TECH",
+          "delta": -0.15,
+          "headline": "White House opposes any international AI regulatory framework at APEC summit talks in Shenzhen",
+          "source": "AFP / The Guardian"
+        },
+        {
+          "sector": "TECH",
+          "delta": 0.0,
+          "headline": "FCC authorizes state prisons to deploy wireless signal-jamming systems against contraband cellphones",
+          "source": "AP"
+        },
+        {
+          "sector": "SOC",
+          "delta": -0.15,
+          "headline": "Cincinnati Zoo's Fiona the hippo dies after swallowing a visitor's hat; Chase discloses customer email leak",
+          "source": "AP"
+        },
+        {
+          "sector": "SOC",
+          "delta": 0.0,
+          "headline": "U.S. Army delays lead azide detonation in Iowa following local community and safety review",
+          "source": "NPR"
+        },
+        {
+          "sector": "GLOB",
+          "delta": -0.25,
+          "headline": "Russia strikes three Kyiv bridges in retaliation for Crimea attack; Houthis claim missile barrage toward Riyadh",
+          "source": "Reuters / BBC News"
+        },
+        {
+          "sector": "GLOB",
+          "delta": 0.0,
+          "headline": "Rights groups call for UN-backed sanctions after ICJ Rohingya genocide ruling against Myanmar",
+          "source": "AP"
+        },
+        {
+          "sector": "SCI",
+          "delta": 0.15,
+          "headline": "BepiColombo dual-orbiter mission prepares for Mercury arrival after eight-year solar system journey",
+          "source": "BBC News / ESA"
+        },
+        {
+          "sector": "SCI",
+          "delta": 0.0,
+          "headline": "Super Typhoon Xavier weakens in South Pacific after setting November intensity record east of Date Line",
+          "source": "NASA Earth Observatory"
+        }
       ],
       "skepticAudit": "Strict Scrutiny: Anthropic's $81B IPO failed Prong 1/3 for TCE (standard equity capital formation), Kyiv bridge strikes failed Prong 2 for TFE (second-order retaliation to the Crimean Bridge attack), and Fiona the hippo's death failed Prong 1/3 for TFE. Null hypothesis: AI sector stock rotation and post-summit artillery exchanges reflect routine market and conflict dynamics.",
       "forecast": "Mild Pullback (-0.2%). Retaliatory strikes in Kyiv and Riyadh trimmed 0.2 points, but BepiColombo's Mercury arrival and Senate grid-permitting reform kept parity safely above the 75.0% PFA baseline."
+    },
+    {
+      "day": 4,
+      "date": "2026-11-21",
+      "label": "DAY 4: MARKET SLUMP & GEOPOLITICAL TENSION",
+      "eventType": "STANDARD_DAY",
+      "previous": 75.2,
+      "current": 74.95,
+      "delta": -0.25,
+      "rawDelta": -0.25,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+0.05% [POL] UK and EU Set to Agree Youth Mobility Scheme and 'Brexit Reset' Deal — (Source: BBC News)",
+        "+0.05% [SOC] Youth Olympic Games Feature Wushu's Historic Debut, Promoting Cultural Exchange — (Source: AFP)",
+        "+0.10% [GLOB] Trump, Xi, Putin Agree 'Declaration on Peace' at APEC Summit, Commit to Dialogue on Nuclear Risks — (Source: Reuters)",
+        "+0.10% [SCI] BepiColombo Mission Enters Mercury Orbit This Saturday — (Source: Mashable)",
+        "+0.05% [SCI] Euclid Telescope Finds 15,000 New Candidates for Cosmic Magnifying Lenses — (Source: Prague)"
+      ],
+      "anomalies": [
+        "-0.10% [POL] Estonia to Close Border with Russia, Moscow Vows Response — (Source: Reuters)",
+        "-0.15% [ECON] Global Stock Markets Slump as Anthropic's Record IPO Fails to Stem AI Sell-off — (Source: The Guardian)",
+        "-0.05% [ECON] Central Banks Eye Rate Hikes Amid Inflation Concerns — (Source: CaixaBank Research)",
+        "-0.10% [SOC] Measles No Longer Considered Eliminated in US and Mexico Amid Resurgence — (Source: AP)",
+        "-0.20% [GLOB] Russia Pummels Ukraine, Missile Hits Poland After Putin Threat — (Source: AFP)"
+      ],
+      "sectorFeed": [
+        {
+          "sector": "POL",
+          "delta": -0.1,
+          "headline": "Estonia to Close Border with Russia, Moscow Vows Response",
+          "source": "Reuters"
+        },
+        {
+          "sector": "POL",
+          "delta": 0.05,
+          "headline": "UK and EU Set to Agree Youth Mobility Scheme and 'Brexit Reset' Deal",
+          "source": "BBC News"
+        },
+        {
+          "sector": "ECON",
+          "delta": -0.15,
+          "headline": "Global Stock Markets Slump as Anthropic's Record IPO Fails to Stem AI Sell-off",
+          "source": "The Guardian"
+        },
+        {
+          "sector": "ECON",
+          "delta": -0.05,
+          "headline": "Central Banks Eye Rate Hikes Amid Inflation Concerns",
+          "source": "CaixaBank Research"
+        },
+        {
+          "sector": "TECH",
+          "delta": -0.05,
+          "headline": "IMF's Georgieva Warns More AI Market Correction to Come",
+          "source": "Bloomberg"
+        },
+        {
+          "sector": "TECH",
+          "delta": 0.05,
+          "headline": "Engineers Build Featherweight Robotic Insect with Onboard Electronics",
+          "source": "Primary"
+        },
+        {
+          "sector": "SOC",
+          "delta": -0.1,
+          "headline": "Measles No Longer Considered Eliminated in US and Mexico Amid Resurgence",
+          "source": "AP"
+        },
+        {
+          "sector": "SOC",
+          "delta": 0.05,
+          "headline": "Youth Olympic Games Feature Wushu's Historic Debut, Promoting Cultural Exchange",
+          "source": "AFP"
+        },
+        {
+          "sector": "GLOB",
+          "delta": 0.1,
+          "headline": "Trump, Xi, Putin Agree 'Declaration on Peace' at APEC Summit, Commit to Dialogue on Nuclear Risks",
+          "source": "Reuters"
+        },
+        {
+          "sector": "GLOB",
+          "delta": -0.2,
+          "headline": "Russia Pummels Ukraine, Missile Hits Poland After Putin Threat",
+          "source": "AFP"
+        },
+        {
+          "sector": "SCI",
+          "delta": 0.1,
+          "headline": "BepiColombo Mission Enters Mercury Orbit This Saturday",
+          "source": "Mashable"
+        },
+        {
+          "sector": "SCI",
+          "delta": 0.05,
+          "headline": "Euclid Telescope Finds 15,000 New Candidates for Cosmic Magnifying Lenses",
+          "source": "Prague"
+        }
+      ],
+      "skepticAudit": "Most events for Day 4, including the diplomatic escalation between Estonia and Russia, the UK-EU youth mobility agreement, the global stock market slump, central bank policy discussions, advancements in robotics, public health setbacks with measles, cultural exchanges at the Youth Olympics, the APEC peace declaration, and space exploration milestones, were assessed against the 4-Prong Strict Scrutiny Gatekeeper. Crucially, all these events consistently failed Prong 1, the 2014 Test. Actions such as border closures, diplomatic negotiations, market fluctuations, central bank decisions, scientific discoveries, public health challenges, international declarations, and ongoing conflicts, while impactful, are deemed to fall within the scope of \"normal constitutional governance, routine election turnover, standard court procedure, or ordinary market fluctuation\" or analogous geopolitical tensions prevalent in 2014. The \"Declaration on Peace\" from the APEC summit, despite involving major global powers, is a statement of intent rather than binding, irreversible structural reform (thus failing Prong 3). Similarly, technological and scientific advancements, while impressive, represent progress within established scientific paradigms. Therefore, no event warranted a breach of the standard daily cap. The collective impact remained within the standard operational range.",
+      "forecast": "The telemetry for Day 4 records a slight negative adjustment, with the Picard Index dipping to 74.95%. This modest decrease is primarily driven by global market downturns and heightened geopolitical tensions, particularly in Eastern Europe and the Baltic region, coupled with a notable public health regression. Positive contributions from space exploration and diplomatic efforts, while present, were insufficient to offset the collective drag. The Index remains critically close to the 75.0% Sovereign Anchor, indicating a period of subtle but measurable erosion of temporal parity, consistent with a STANDARD_DAY under moderate stress, but without triggering any major convergence or fracture events."
     }
   ]
 }
