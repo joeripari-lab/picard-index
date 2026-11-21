@@ -1048,6 +1048,142 @@
         ],
         "reasoning": "During Cycle 1 (Days 1–7), the index experienced +1.10% in gross positive wire signals. However, 7-day hindsight review revealed that approximately 10 basis points (+0.10%) were driven by speculative pre-IPO chatter and non-binding diplomatic communiques that failed to produce irreversible structural guardrails under Prong 3. By issuing a -0.10% Reversion Adjustment, the engine trims ephemeral narrative noise while certifying that the remaining +1.00% net parity gain (advancing the timeline from 75.00% to 76.00%) is anchored in verified, binding, and durable reality."
       }
+    },
+    {
+      "day": 8,
+      "date": "2026-11-25",
+      "label": "DAY 8: INTERNATIONAL JUSTICE, GEOPOLITICAL TENSIONS & AI MARKETS",
+      "eventType": "STANDARD_DAY",
+      "previous": 76.02,
+      "current": 76.17,
+      "delta": 0.15,
+      "rawDelta": 0.15,
+      "capped": false,
+      "capLimit": 0.5,
+      "echoes": [],
+      "realignment": [
+        "+0.10% [POL] Apec Summit 2026: Trump, Xi, Putin conclude historic meetings, agree on UN reforms — (Source: Reuters)",
+        "+0.18% [ECON] AI giant Anthropic goes public with trillion-dollar valuation, sparking market speculation — (Source: PBS NewsHour)",
+        "+0.07% [TECH] UN Secretary-General co-hosts AI safety summit, urges closing gap between risks and capacity — (Source: Global Issues)",
+        "+0.05% [SOC] India's Gen Z 'cockroach movement' demands electoral reforms after minister's resignation — (Source: Global Issues)",
+        "+0.10% [SCI] NASA's Voyager 1 reaches one-light-day distance from Earth, continuing interstellar mission — (Source: SpacePolicyOnline.com)",
+        "+0.15% [LAW] ICJ rules Myanmar responsible for genocide against Rohingya, setting precedent for state accountability — (Source: ICJ)",
+        "+0.05% [LAW] Federal judge blocks construction of controversial presidential memorial arch — (Source: PBS News)",
+        "+0.08% [MEME] New viral dance trend 'Temporal Twist' sweeps social media, promoting global unity — (Source: Variety)",
+        "+0.12% [MEME] Blockbuster sci-fi film 'Chronoscape' crosses $1 billion worldwide, setting new holiday box office record — (Source: Billboard)"
+      ],
+      "anomalies": [
+        "-0.05% [POL] Trump auditions potential successors at White House briefing, signaling focus on future political landscape — (Source: AP)",
+        "-0.15% [ECON] Gold prices plummet globally by 8% in a week, marking steepest drop in eight months — (Source: Reuters)",
+        "-0.08% [TECH] US tightens controls on remote access to AI technology amid Nvidia fallout, citing security concerns — (Source: NPR)",
+        "-0.10% [SOC] UN migration chief warns climate change could displace over 200 million people, calls for policy action — (Source: AFP)",
+        "-0.15% [GLOB] North Korea reportedly expanding nuclear material production, international community expresses deep concern — (Source: AP)",
+        "-0.10% [GLOB] Yemen crisis deepens with escalating violence, child displacement, and access constraints — (Source: Global Issues)",
+        "-0.12% [SCI] WMO warns 2026 nearing record heat, intensifying climate extremes expected globally — (Source: EnvironBuzz™ Magazine)"
+      ],
+      "sectorFeed": [
+        {
+          "sector": "POL",
+          "delta": 0.1,
+          "headline": "Apec Summit 2026: Trump, Xi, Putin conclude historic meetings, agree on UN reforms.",
+          "source": "Reuters"
+        },
+        {
+          "sector": "POL",
+          "delta": -0.05,
+          "headline": "Trump auditions potential successors at White House briefing, signaling focus on future political landscape.",
+          "source": "AP"
+        },
+        {
+          "sector": "ECON",
+          "delta": -0.15,
+          "headline": "Gold prices plummet globally by 8% in a week, marking steepest drop in eight months.",
+          "source": "Reuters"
+        },
+        {
+          "sector": "ECON",
+          "delta": 0.18,
+          "headline": "AI giant Anthropic goes public with trillion-dollar valuation, sparking market speculation.",
+          "source": "PBS NewsHour"
+        },
+        {
+          "sector": "TECH",
+          "delta": 0.07,
+          "headline": "UN Secretary-General co-hosts AI safety summit, urges closing gap between risks and capacity.",
+          "source": "Global Issues"
+        },
+        {
+          "sector": "TECH",
+          "delta": -0.08,
+          "headline": "US tightens controls on remote access to AI technology amid Nvidia fallout, citing security concerns.",
+          "source": "NPR"
+        },
+        {
+          "sector": "SOC",
+          "delta": 0.05,
+          "headline": "India's Gen Z 'cockroach movement' demands electoral reforms after minister's resignation.",
+          "source": "Global Issues"
+        },
+        {
+          "sector": "SOC",
+          "delta": -0.1,
+          "headline": "UN migration chief warns climate change could displace over 200 million people, calls for policy action.",
+          "source": "AFP"
+        },
+        {
+          "sector": "GLOB",
+          "delta": -0.15,
+          "headline": "North Korea reportedly expanding nuclear material production, international community expresses deep concern.",
+          "source": "AP"
+        },
+        {
+          "sector": "GLOB",
+          "delta": -0.1,
+          "headline": "Yemen crisis deepens with escalating violence, child displacement, and access constraints.",
+          "source": "Global Issues"
+        },
+        {
+          "sector": "SCI",
+          "delta": -0.12,
+          "headline": "WMO warns 2026 nearing record heat, intensifying climate extremes expected globally.",
+          "source": "EnvironBuzz™ Magazine"
+        },
+        {
+          "sector": "SCI",
+          "delta": 0.1,
+          "headline": "NASA's Voyager 1 reaches one-light-day distance from Earth, continuing interstellar mission.",
+          "source": "SpacePolicyOnline.com"
+        },
+        {
+          "sector": "LAW",
+          "delta": 0.15,
+          "headline": "International Court of Justice finds Myanmar responsible for genocide against the Rohingya, setting powerful precedent.",
+          "source": "ICJ"
+        },
+        {
+          "sector": "LAW",
+          "delta": 0.05,
+          "headline": "Federal judge blocks construction of controversial presidential memorial arch.",
+          "source": "PBS News"
+        },
+        {
+          "sector": "MEME",
+          "delta": 0.08,
+          "headline": "New viral dance trend 'Temporal Twist' sweeps social media, promoting global unity.",
+          "source": "Variety"
+        },
+        {
+          "sector": "MEME",
+          "delta": 0.12,
+          "headline": "Blockbuster sci-fi film 'Chronoscape' crosses $1 billion worldwide, setting new holiday box office record.",
+          "source": "Billboard"
+        }
+      ],
+      "skepticAudit": "The past 24 hours of global news, while reflecting significant events, did not present any occurrences warranting a bypass of the standard daily delta cap through the 4-Prong Strict Scrutiny Gatekeeper. All identified events, including major diplomatic summits, economic shifts, technological advancements, social movements, and legal rulings, are assessed as routine in the context of global affairs. \n\nProng 1 (The 2014 Test): Each headline, despite its impact, describes a type of event that would generally fall under normal constitutional governance, routine election turnover, standard court procedure, or ordinary market fluctuation as observed in 2014. Therefore, no event qualifies for bonus points or panic multipliers.\n\nProng 2 (Causal Independence): The events are distinct and independent, not merely second-order reactions to a singular, overwhelming prior event. Their individual contributions to the rawDelta are assessed independently.\n\nProng 3 (Irreversible Structural Permanence): While events such as the ICJ ruling on genocide represent binding legal precedent, and an AI company's IPO has significant economic implications, they do not constitute irreversible systemic fallout that fundamentally breaks or reshapes global governance, societal structures, or economic systems beyond the scope of a standard day. The blocking of a presidential memorial also represents a check within existing legal frameworks, not a structural rupture.\n\nProng 4 (Multi-Outlet Empirical Verification): All cited headlines are drawn from or reflective of tier-1 major neutral outlets. However, without meeting the criteria of the first three prongs for a cap bypass, this prong serves merely as a validation of source quality for the standard scoring. \n\nThe rawDelta of +0.15% did not exceed the +/-0.5% daily cap, thus no clamping occurred, and the 'capped' flag is set to false. No 'Cascading Nonsense Policy Multiplier' was triggered as no contradictory policies undergoing Strict Scrutiny were identified.",
+      "forecast": "Day 8 closes with a parity of 76.17%, a modest increase of +0.15%, maintaining a stable trajectory above the 75.0% Sovereign Anchor. The day's telemetry reflects a mixed bag of global developments: positive realignments from international legal accountability and significant AI market activity are largely offset by persistent geopolitical tensions, economic downturns in certain sectors (like gold), and critical environmental warnings. The APEC summit and ICJ ruling underscore ongoing efforts in global governance, while North Korea's nuclear activities and deepening humanitarian crises like Yemen's serve as enduring points of concern. The overall outlook suggests continued navigation of complex, interconnected global challenges without immediate systemic disruption, consistent with a 'STANDARD_DAY' of moderate fluctuations.",
+      "weeklyHindsight": null,
+      "dailyDelta": 0.15,
+      "reversionDelta": 0.0
     }
   ]
 }
