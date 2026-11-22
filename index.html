@@ -717,6 +717,10 @@
 
       <!-- Action Buttons -->
       <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+        <button class="btn" id="btnProvenanceModal" title="Verify cryptographic authenticity of this Picard Index instance">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span id="provenanceBtnLabel">VERIFYING...</span>
+        </button>
         <button class="btn btn-gold" id="btnAboutModal">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
           ABOUT
@@ -1227,6 +1231,42 @@
 
 
   <!-- ==========================================================================
+       MODAL 3: CANONICAL PROVENANCE & CRYPTOGRAPHIC VERIFICATION
+       ========================================================================== -->
+  <div class="modal-overlay" id="provenanceModal">
+    <div class="modal-box" style="max-width: 720px;">
+      <div class="modal-header">
+        <div class="modal-title">THE PICARD INDEX // CANONICAL PROVENANCE</div>
+        <button class="btn" id="btnCloseProvenanceModal" style="padding:0.1rem 0.4rem;">✕</button>
+      </div>
+
+      <div class="about-section" style="max-height: 65vh; overflow-y: auto; padding-right: 0.5rem;">
+        <div id="provenanceSummaryBanner" style="padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-accent); background: rgba(255,255,255,0.02); margin-bottom: 0.9rem; font-family: var(--font-mono); font-size: 0.8rem;">
+          Checking cryptographic signature and file hashes...
+        </div>
+
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          Every official Picard Index update is signed by the canonical repository's private ECDSA P-256 key (stored only in GitHub Actions Secrets). If this repo is cloned or hosted elsewhere and any rule, script, or telemetry record is altered, verification will fail.
+        </p>
+
+        <div id="provenanceDetailsGrid" style="font-family: var(--font-mono); font-size: 0.74rem; display: grid; gap: 0.45rem; background: rgba(0,0,0,0.25); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-accent);">
+        </div>
+
+        <div style="margin-top: 0.9rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.3rem;">INDEPENDENT CLI VERIFICATION:</div>
+          <code id="provenanceCliCmd" style="display:block; padding:0.5rem 0.7rem; background:#060810; border:1px solid var(--border-accent); border-radius:4px; font-size:0.74rem; word-break:break-all;">python verify_index.py</code>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;">
+        <button class="btn" id="btnReverifyProvenance">RE-VERIFY</button>
+        <button class="btn btn-gold" id="btnCloseProvenanceBtn">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================================================
        JAVASCRIPT ARCHITECTURE & INTERACTIVE ENGINE
        ========================================================================== -->
   <script>
@@ -1313,6 +1353,7 @@
       selectedDayIndex = currentData.logs.length - 1;
       initDashboard();
       setupEventListeners();
+      verifyCanonicalProvenance();
     });
 
     function initDashboard() {
@@ -1723,6 +1764,13 @@
       document.getElementById('btnCloseAboutModal').addEventListener('click', () => aboutModal.classList.remove('active'));
       document.getElementById('btnCloseAboutBtn').addEventListener('click', () => aboutModal.classList.remove('active'));
 
+      // Provenance Modal
+      const provenanceModal = document.getElementById('provenanceModal');
+      document.getElementById('btnProvenanceModal').addEventListener('click', () => provenanceModal.classList.add('active'));
+      document.getElementById('btnCloseProvenanceModal').addEventListener('click', () => provenanceModal.classList.remove('active'));
+      document.getElementById('btnCloseProvenanceBtn').addEventListener('click', () => provenanceModal.classList.remove('active'));
+      document.getElementById('btnReverifyProvenance').addEventListener('click', () => verifyCanonicalProvenance());
+
       // Changelog Modal
       const changelogModal = document.getElementById('changelogModal');
       document.getElementById('btnChangelogModal').addEventListener('click', () => changelogModal.classList.add('active'));
@@ -1883,6 +1931,149 @@
       }
       lines.push(currentLine);
       return lines;
+    }
+
+    function stableCompactStringify(value) {
+      if (Array.isArray(value)) {
+        return '[' + value.map(stableCompactStringify).join(',') + ']';
+      }
+      if (value && typeof value === 'object') {
+        const keys = Object.keys(value).sort();
+        return '{' + keys.map(k => JSON.stringify(k) + ':' + stableCompactStringify(value[k])).join(',') + '}';
+      }
+      return JSON.stringify(value);
+    }
+
+    async function sha256Hex(buffer) {
+      const hashBuf = await crypto.subtle.digest('SHA-256', buffer);
+      return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function base64ToBytes(b64) {
+      const bin = atob(b64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return bytes;
+    }
+
+    function pemToSpkiDer(pem) {
+      const clean = pem.replace(/-----[^-]+-----/g, '').replace(/\s+/g, '');
+      return base64ToBytes(clean).buffer;
+    }
+
+    async function verifyCanonicalProvenance() {
+      const btn = document.getElementById('btnProvenanceModal');
+      const btnLabel = document.getElementById('provenanceBtnLabel');
+      const banner = document.getElementById('provenanceSummaryBanner');
+      const grid = document.getElementById('provenanceDetailsGrid');
+      const cliCmd = document.getElementById('provenanceCliCmd');
+
+      const originUrl = window.location.origin && window.location.origin !== 'null'
+        ? window.location.href.replace(/\/[^/]*$/, '')
+        : '';
+      cliCmd.textContent = originUrl
+        ? `python verify_index.py --url ${originUrl}`
+        : 'python verify_index.py';
+
+      const setStatus = (state, label, detailsHtml) => {
+        btnLabel.textContent = label;
+        if (state === 'VERIFIED') {
+          btn.style.borderColor = 'var(--prime-green)';
+          btn.style.color = 'var(--prime-green)';
+          banner.style.borderColor = 'var(--prime-green)';
+          banner.style.color = 'var(--prime-green)';
+          banner.innerHTML = `✓ ${label} — Cryptographic signature and all engine/telemetry hashes match.`;
+        } else if (state === 'UNSIGNED') {
+          btn.style.borderColor = 'var(--pfa-gold)';
+          btn.style.color = 'var(--pfa-gold)';
+          banner.style.borderColor = 'var(--pfa-gold)';
+          banner.style.color = 'var(--pfa-gold)';
+          banner.innerHTML = `⚠ ${label} — Attestation signature not yet published.`;
+        } else {
+          btn.style.borderColor = 'var(--tfe-rose)';
+          btn.style.color = 'var(--tfe-rose)';
+          banner.style.borderColor = 'var(--tfe-rose)';
+          banner.style.color = 'var(--tfe-rose)';
+          banner.innerHTML = `✕ ${label} — This instance failed canonical provenance verification.`;
+        }
+        grid.innerHTML = detailsHtml;
+      };
+
+      if (!window.crypto || !window.crypto.subtle) {
+        setStatus('UNSIGNED', 'WEBCRYPTO UNAVAILABLE', '<div>Browser Web Crypto API is required for in-browser verification. Use CLI verifier below.</div>');
+        return;
+      }
+
+      const ts = Date.now();
+      try {
+        const [attResp, pubResp, lockResp, parityResp, telResp] = await Promise.all([
+          fetch(`./attestation.json?t=${ts}`),
+          fetch(`./picard_public.pem?t=${ts}`),
+          fetch(`./engine_lock.json?t=${ts}`),
+          fetch(`./update_parity.py?t=${ts}`),
+          fetch(`./telemetry.json?t=${ts}`)
+        ]);
+
+        if (!attResp.ok || !pubResp.ok) {
+          setStatus('UNSIGNED', 'AWAITING SIGNATURE', '<div><code>attestation.json</code> or <code>picard_public.pem</code> has not been published yet. Add <code>PICARD_SIGNING_KEY</code> to GitHub Secrets and run the workflow.</div>');
+          return;
+        }
+
+        const attestation = await attResp.json();
+        const pubPem = await pubResp.text();
+        const [lockBuf, parityBuf, telBuf] = await Promise.all([
+          lockResp.arrayBuffer(),
+          parityResp.arrayBuffer(),
+          telResp.arrayBuffer()
+        ]);
+
+        const spkiDer = pemToSpkiDer(pubPem);
+        const pubFingerprint = await sha256Hex(spkiDer);
+        const lockHash = await sha256Hex(lockBuf);
+        const parityHash = await sha256Hex(parityBuf);
+        const telHash = await sha256Hex(telBuf);
+
+        const payload = attestation.payload || {};
+        const hashes = payload.hashes || {};
+
+        const checks = [
+          { name: 'engine_lock.json', ok: hashes.engineLockFileSha256 === lockHash, val: lockHash },
+          { name: 'update_parity.py', ok: hashes.updateParitySha256 === parityHash, val: parityHash },
+          { name: 'telemetry.json', ok: hashes.telemetrySha256 === telHash, val: telHash },
+          { name: 'Key Fingerprint', ok: payload.keyFingerprint === pubFingerprint, val: pubFingerprint }
+        ];
+
+        const key = await crypto.subtle.importKey(
+          'spki',
+          spkiDer,
+          { name: 'ECDSA', namedCurve: 'P-256' },
+          false,
+          ['verify']
+        );
+        const payloadBytes = new TextEncoder().encode(stableCompactStringify(payload));
+        const sigBytes = base64ToBytes(attestation.signature || '');
+        const sigValid = await crypto.subtle.verify(
+          { name: 'ECDSA', hash: 'SHA-256' },
+          key,
+          sigBytes,
+          payloadBytes
+        );
+        checks.push({ name: 'ECDSA P-256 Signature', ok: sigValid, val: sigValid ? 'VALID' : 'INVALID' });
+
+        const allOk = checks.every(c => c.ok);
+        const rowsHtml = [
+          `<div><span style="color:var(--text-muted)">CANONICAL REPO:</span> ${payload.canonicalRepo || 'unknown'}</div>`,
+          `<div><span style="color:var(--text-muted)">SIGNED DAY / PARITY:</span> Day ${payload.day} (${payload.date}) @ ${payload.parity}%</div>`,
+          `<div><span style="color:var(--text-muted)">SIGNED AT:</span> ${payload.signedAt || 'unknown'}</div>`,
+          ...checks.map(c =>
+            `<div><span style="color:${c.ok ? 'var(--prime-green)' : 'var(--tfe-rose)'}">${c.ok ? '✓' : '✕'} ${c.name}:</span> <span style="color:var(--text-muted)">${String(c.val).slice(0, 32)}${String(c.val).length > 32 ? '...' : ''}</span></div>`
+          )
+        ].join('');
+
+        setStatus(allOk ? 'VERIFIED' : 'TAMPERED', allOk ? 'VERIFIED CANONICAL' : 'TAMPERED / INVALID', rowsHtml);
+      } catch (err) {
+        setStatus('TAMPERED', 'VERIFICATION ERROR', `<div>${String(err)}</div>`);
+      }
     }
   </script>
 </body>
