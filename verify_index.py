@@ -22,9 +22,8 @@ import urllib.request
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Pin the canonical key fingerprint here once generated so clones cannot silently
-# swap picard_public.pem without failing verification against the official verifier.
-EXPECTED_KEY_FINGERPRINT = None
+# Pin the canonical key fingerprint so clones cannot silently swap picard_public.pem.
+EXPECTED_KEY_FINGERPRINT = "3f7655b2c4ca6b5560a4c673befef86cfe5b8ddd86f412e784ce39723d8a567c"
 
 
 def find_openssl() -> str | None:
@@ -107,6 +106,14 @@ def main():
         errors.append(
             f"engine_lock.json rules mismatch: expected {lock_data.get('engineSha256')}, got {computed_rules_sha}"
         )
+
+    if not args.url and lock_data.get("promptTemplateSha256"):
+        import update_parity
+        computed_prompt_sha = update_parity.compute_prompt_template_sha256(lock_data["canonicalRules"])
+        if computed_prompt_sha != lock_data.get("promptTemplateSha256"):
+            errors.append(
+                f"promptTemplateSha256 mismatch: expected {lock_data.get('promptTemplateSha256')}, got {computed_prompt_sha}"
+            )
 
     attestation = json.loads(attestation_bytes.decode("utf-8"))
     payload = attestation.get("payload", {})

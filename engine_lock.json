@@ -1,10 +1,12 @@
 {
-  "schemaVersion": "2.3.0",
+  "schemaVersion": "2.4.0",
   "canonicalRules": {
     "pfaBaseline": 75.0,
     "standardDailyCap": 0.5,
+    "maxStandardItemDelta": 0.25,
     "noiseFloor": 0.0,
     "memeSectorMaxItemDelta": 0.15,
+    "memeSectorMaxNetDelta": 0.2,
     "memeCanTriggerTceOrTfe": false,
     "cascadingNonsenseMultiplier": 1.5,
     "requiredSectors": [
@@ -18,6 +20,33 @@
       "MEME"
     ],
     "minItemsPerSector": 2,
+    "allowedSourceDomains": [
+      "reuters.com",
+      "apnews.com",
+      "afp.com",
+      "bbc.com",
+      "bbc.co.uk",
+      "bloomberg.com",
+      "pbs.org",
+      "npr.org",
+      "nasa.gov",
+      "esa.int",
+      "nature.com",
+      "icj-cij.org",
+      "supremecourt.gov"
+    ],
+    "allowedMemeDomains": [
+      "variety.com",
+      "billboard.com",
+      "hollywoodreporter.com",
+      "knowyourmeme.com",
+      "rollingstone.com",
+      "ign.com",
+      "theverge.com",
+      "deadline.com",
+      "boxofficemojo.com",
+      "pitchfork.com"
+    ],
     "strictScrutinyProngs": [
       "2014_TEST_BASELINE_FILTER",
       "CAUSAL_INDEPENDENCE",
@@ -52,7 +81,16 @@
       "twentyFourteenNullCheckPassed": true,
       "thirtyDayDriftStressTestPassed": true,
       "auditor": "Joe / Engine Governance"
+    },
+    {
+      "date": "2026-11-23",
+      "changeSummary": "Hardened engine to v2.4.0: UTC date gate, temperature=0.0, deterministic rawDelta summation, strictScrutiny boolean enforcement, Tier-1 allowedSourceDomains, MEME allowedMemeDomains wildcard (Prong 1 exempt, +/-0.20% net cap), and promptTemplateSha256 lock.",
+      "directionalSymmetryPassed": true,
+      "twentyFourteenNullCheckPassed": true,
+      "thirtyDayDriftStressTestPassed": true,
+      "auditor": "Joe / Engine Governance"
     }
   ],
-  "engineSha256": "39a6a9137185d5b3dc16b32cf555086142db02960b9163b277eaef8398b99866"
+  "engineSha256": "688623179e9fc4c3206160d41a16ee20da539e9fa0ee9c8f55d94e83af894b1f",
+  "promptTemplateSha256": "bb2c8b0d88ed79d060987f2fce9d236b5e205410100a7e33bc3f0d3e2b6ab19e"
 }

@@ -706,7 +706,7 @@
       <div class="brand-title">
         <div>
           <h1>THE PICARD INDEX <span style="color:var(--text-muted)">//</span> TEMPORAL PARITY</h1>
-          <div class="sub">8-SECTOR NEUTRAL WIRE & CULTURE AGGREGATOR • ANTI-TAMPER ENGINE LOCK v2.2.0</div>
+          <div class="sub">8-SECTOR NEUTRAL WIRE & CULTURE AGGREGATOR • ANTI-TAMPER ENGINE LOCK v2.4.0</div>
         </div>
       </div>
 
@@ -809,7 +809,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--prime-green)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             TIMELINE VITAL STATS
           </span>
-          <span class="badge badge-purple" id="activeWindowBadge">LOCK v2.2.0</span>
+          <span class="badge badge-purple" id="activeWindowBadge">LOCK v2.4.0</span>
         </div>
 
         <div class="vitals-grid">
@@ -832,8 +832,8 @@
         </div>
 
         <div style="background: rgba(179,102,255,0.03); border: 1px solid var(--border-accent); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-mono);">
-          <div style="color: var(--meme-purple); font-weight: bold; margin-bottom: 0.1rem;">ENGINE LOCK v2.2.0</div>
-          <div style="color: var(--text-muted); font-size: 0.65rem;" id="windowStatusDetail">8 Balanced Sectors (incl. LAW & MEME). Cryptographically sealed by SHA-256.</div>
+          <div style="color: var(--meme-purple); font-weight: bold; margin-bottom: 0.1rem;">ENGINE LOCK v2.4.0</div>
+          <div style="color: var(--text-muted); font-size: 0.65rem;" id="windowStatusDetail">8 Balanced Sectors (incl. LAW & MEME wildcard). Domain allowlist & ECDSA P-256 provenance active.</div>
         </div>
       </div>
 
@@ -2029,6 +2029,7 @@
 
         const spkiDer = pemToSpkiDer(pubPem);
         const pubFingerprint = await sha256Hex(spkiDer);
+        const expectedFingerprint = '3f7655b2c4ca6b5560a4c673befef86cfe5b8ddd86f412e784ce39723d8a567c';
         const lockHash = await sha256Hex(lockBuf);
         const parityHash = await sha256Hex(parityBuf);
         const telHash = await sha256Hex(telBuf);
@@ -2040,7 +2041,7 @@
           { name: 'engine_lock.json', ok: hashes.engineLockFileSha256 === lockHash, val: lockHash },
           { name: 'update_parity.py', ok: hashes.updateParitySha256 === parityHash, val: parityHash },
           { name: 'telemetry.json', ok: hashes.telemetrySha256 === telHash, val: telHash },
-          { name: 'Key Fingerprint', ok: payload.keyFingerprint === pubFingerprint, val: pubFingerprint }
+          { name: 'Key Fingerprint', ok: payload.keyFingerprint === pubFingerprint && pubFingerprint === expectedFingerprint, val: pubFingerprint }
         ];
 
         const key = await crypto.subtle.importKey(
