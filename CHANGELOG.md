@@ -4,6 +4,28 @@ All notable changes to **The Picard Index (Temporal Parity & Reality Audit)** en
 
 ---
 
+## [2.4.0] — 2026-11-23
+
+### Added
+- **ECDSA P-256 Canonical Provenance & Attestation (`sign_attestation.py`, `verify_index.py`)**:
+  - Signs `attestation.json` on every official CI run using a private ECDSA P-256 key stored exclusively in GitHub Secrets (`PICARD_SIGNING_KEY`), publishing `picard_public.pem` and pinning its SHA-256 key fingerprint (`3f7655b2c4ca6b55...`).
+  - Added live in-browser verification (`window.crypto.subtle`) and a **Canonical Provenance Modal** in the dashboard so any visitor can verify authenticity against altered clones.
+- **Tier-1 Domain Allowlists & Grounding Verification**:
+  - Enforced `allowedSourceDomains` across the 7 structural sectors and `allowedMemeDomains` for `MEME` (`+/-0.15%` per item, `+/-0.20%` net sector cap, exempt from Prong 1 / 2014 Test).
+  - Unverified `sectorFeed` items are automatically zeroed (`[UNVERIFIED SOURCE ZEROED]`).
+- **Prompt Integrity Lock (`promptTemplateSha256`)**:
+  - Hashed `build_system_rules_prompt()` across both daily and weekly audit modes (`bb2c8b0d88ed79d0...`) in `engine_lock.json`.
+
+### Changed
+- **Deterministic Telemetry Engine (`update_parity.py`)**:
+  - Added UTC date gate to prevent future-dated runs and locked Gemini `temperature: 0.0`.
+  - Replaced LLM-reported `rawDelta`, `realignment`, `anomalies`, and `eventType` overrides with deterministic Python summation and structured `strictScrutiny` boolean enforcement.
+  - Pruned future-dated telemetry entries (Days 7–9) back to Day 6 (`2026-11-23`, `75.9%`).
+- **Anti-Tampering Engine Lock v2.4.0**:
+  - Updated `engineSha256` to `688623179e9fc4c3206160d41a16ee20da539e9fa0ee9c8f55d94e83af894b1f` and logged the `2026-11-23` Objectivity Audit entry.
+
+---
+
 ## [2.3.0] — 2026-11-20
 
 ### Added

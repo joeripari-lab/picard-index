@@ -1111,9 +1111,9 @@
           If an event dissolved, was stayed by a court, or proved to be non-binding posturing, the engine applies a bounded <strong>Reversion Adjustment</strong> (capped at <strong>+/-0.30%</strong>) and publishes the recorded itemized reasoning directly in the public dashboard ledger.
         </p>
 
-        <div class="about-subtitle">5. Anti-Tampering Engine Lock v2.3.0</div>
+        <div class="about-subtitle">5. Anti-Tampering Engine Lock v2.4.0</div>
         <p>
-          All scoring rules, caps, sector weights, prongs, and weekly hindsight parameters are cryptographically sealed in <code>engine_lock.json</code> using SHA-256 (<code>39a6a9137185d5b3...</code>). Any manual alteration or prompt tampering immediately halts the CI/CD pipeline unless accompanied by a documented Objectivity Audit and a recalculated checksum.
+          All scoring rules, caps, domain allowlists, prongs, and weekly hindsight parameters are cryptographically sealed in <code>engine_lock.json</code> using SHA-256 (<code>688623179e9fc4c3...</code>) alongside a prompt template lock (<code>bb2c8b0d88ed79d0...</code>), and signed per-run with ECDSA P-256 (<code>attestation.json</code>). Any manual alteration or prompt tampering immediately fails both CI/CD and in-browser provenance verification.
         </p>
       </div>
 
@@ -1135,6 +1135,19 @@
       </div>
 
       <div class="about-section" style="max-height: 60vh; overflow-y: auto; padding-right: 0.5rem;">
+        <div style="border-left: 3px solid var(--prime-green); padding-left: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--prime-green); font-family:var(--font-mono); font-size:0.85rem;">VERSION 2.4.0</strong>
+            <span class="badge badge-dim">2026-11-23</span>
+          </div>
+          <ul style="padding-left:1rem; margin-top:0.3rem; font-size:0.78rem;">
+            <li><strong>ECDSA P-256 Canonical Provenance</strong>: Added cryptographic attestation signing (<code>sign_attestation.py</code>), CLI verifier (<code>verify_index.py</code>), and live in-browser Web Crypto verification modal.</li>
+            <li><strong>Deterministic Scoring &amp; Domain Allowlists</strong>: Enforced UTC date gate, <code>temperature=0.0</code>, Python-computed <code>rawDelta</code>/summaries, structured <code>strictScrutiny</code> booleans, and <code>allowedSourceDomains</code>.</li>
+            <li><strong>MEME Wildcard Hardening</strong>: Added <code>allowedMemeDomains</code>, <code>+/-0.20%</code> net daily sector cap, and Prong 1 (2014 Test) exemption.</li>
+            <li><strong>Anti-Tamper Lock v2.4.0</strong>: Updated <code>engineSha256</code> to <code>688623179e9fc4c3...</code> and added <code>promptTemplateSha256</code> lock (<code>bb2c8b0d88ed79d0...</code>).</li>
+          </ul>
+        </div>
+
         <div style="border-left: 3px solid #a855f7; padding-left: 0.75rem; margin-bottom: 0.75rem;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <strong style="color:#c084fc; font-family:var(--font-mono); font-size:0.85rem;">VERSION 2.3.0</strong>
