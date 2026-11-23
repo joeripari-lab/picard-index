@@ -1,0 +1,20 @@
+{
+  "payload": {
+    "schemaVersion": "1.0.0",
+    "canonicalRepo": "joeripari-lab/picard-index",
+    "algorithm": "ECDSA-P256-SHA256",
+    "keyFingerprint": "3f7655b2c4ca6b5560a4c673befef86cfe5b8ddd86f412e784ce39723d8a567c",
+    "signedAt": "2026-11-23T02:24:25Z",
+    "day": 9,
+    "date": "2026-11-26",
+    "parity": 76.67,
+    "hashes": {
+      "engineLockSha256": "39a6a9137185d5b3dc16b32cf555086142db02960b9163b277eaef8398b99866",
+      "engineLockFileSha256": "1bca32c3c0296ecb599e688ba429c80f6ac2f97cc821b6573bf3ac6b71daf821",
+      "updateParitySha256": "6e072d00b63bab1c4bed79a6d26e4f824c14a6ef752ced82750b91e8f485fc96",
+      "telemetrySha256": "a1ca35dbc4eb3e4fe29e81ac69843386387ab1a27e46a4f2e8fc5b6bdb0febe1"
+    }
+  },
+  "signature": "ouQdR9kOFWZKr3CxdSUGkIvENwl+NBTZyonf50tf7qXFOUqj1yqpjzyOtSNg1BaZLLKKqTZt3rzq6WBcMiOE0Q==",
+  "signatureDer": "MEYCIQCi5B1H2Q4VZkqvcLF1JQaQi8Q3CX40FNnKid/nS1/upQIhAMU5SqPXKqmPPI61I2DUFpkssoqpNm3evOrpYFwyI4TR"
+}
