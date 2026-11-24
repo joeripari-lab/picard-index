@@ -4,7 +4,7 @@
     "canonicalRepo": "joeripari-lab/picard-index",
     "algorithm": "ECDSA-P256-SHA256",
     "keyFingerprint": "3f7655b2c4ca6b5560a4c673befef86cfe5b8ddd86f412e784ce39723d8a567c",
-    "signedAt": "2026-11-24T04:28:13Z",
+    "signedAt": "2026-11-24T23:51:52Z",
     "day": 7,
     "date": "2026-11-24",
     "parity": 75.77,
@@ -15,6 +15,6 @@
       "telemetrySha256": "6af600b47bb5b070be0fdb0c324b92941ed32fef6e232faa2958798e96313f48"
     }
   },
-  "signature": "gBT5M+yLZQ16aPC0B9sUtqKKW+vAKY314/2Lv/RSdMN5pQJDFRf4tiS6ydsSstcvyKJH7gVFP31oXmDe5QXYsw==",
-  "signatureDer": "MEUCIQCAFPkz7ItlDXpo8LQH2xS2oopb68ApjfXj/Yu/9FJ0wwIgeaUCQxUX+LYkusnbErLXL8iiR+4FRT99aF5g3uUF2LM="
+  "signature": "135m/Ux7S75NhoX8YUhsJuKuQh0wmJgwbcf2Y/XIq0EByxOtoZCvBY4JJTWFJd/iW7VFyM4lkzjZRt9ubJxz8g==",
+  "signatureDer": "MEUCIQDXfmb9THtLvk2GhfxhSGwm4q5CHTCYmDBtx/Zj9cirQQIgAcsTraGQrwWOCSU1hSXf4lu1RcjOJZM42Ubfbmycc/I="
 }
