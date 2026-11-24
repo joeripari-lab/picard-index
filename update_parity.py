@@ -220,11 +220,37 @@ def extract_grounding_info(candidate: dict) -> dict:
     return {"uris": uris, "titles": titles}
 
 
+def _parse_json_lenient(text_content: str) -> dict:
+    clean_json = text_content.strip()
+    if clean_json.startswith("```"):
+        clean_json = re.sub(r"^```(?:json)?\s*", "", clean_json)
+        clean_json = re.sub(r"\s*```$", "", clean_json)
+
+    candidates = [clean_json]
+    match = re.search(r"\{[\s\S]*\}", text_content)
+    if match:
+        candidates.append(match.group(0))
+
+    last_err = None
+    for cand in candidates:
+        for attempt_str in (cand, re.sub(r",\s*([}\]])", r"\1", cand)):
+            try:
+                return json.loads(attempt_str)
+            except json.JSONDecodeError as e:
+                last_err = e
+    raise last_err
+
+
 def query_gemini_single_attempt(
-    api_key: str, model: str, system_prompt: str, user_prompt: str, use_json_mime: bool = True
+    api_key: str,
+    model: str,
+    system_prompt: str,
+    user_prompt: str,
+    use_json_mime: bool = False,
+    temperature: float = 0.0,
 ) -> tuple[dict, dict]:
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-    generation_config = {"temperature": 0.0}
+    generation_config = {"temperature": temperature}
     if use_json_mime:
         generation_config["responseMimeType"] = "application/json"
 
@@ -254,28 +280,19 @@ def query_gemini_single_attempt(
 
     try:
         candidate = result["candidates"][0]
-        text_content = candidate["content"]["parts"][0]["text"]
+        parts = candidate["content"]["parts"]
+        text_content = "".join(p.get("text", "") for p in parts if isinstance(p, dict))
+        if not text_content.strip():
+            raise ValueError("Empty text content in Gemini response")
     except (KeyError, IndexError) as e:
         raise ValueError(f"Malformed Gemini API response: {result}") from e
 
     grounding_info = extract_grounding_info(candidate)
-
-    clean_json = text_content.strip()
-    if clean_json.startswith("```"):
-        clean_json = re.sub(r"^```(?:json)?\s*", "", clean_json)
-        clean_json = re.sub(r"\s*```$", "", clean_json)
-
-    try:
-        return json.loads(clean_json), grounding_info
-    except json.JSONDecodeError:
-        match = re.search(r"\{[\s\S]*\}", text_content)
-        if match:
-            return json.loads(match.group(0)), grounding_info
-        raise
+    return _parse_json_lenient(text_content), grounding_info
 
 
 def query_gemini(api_key: str, requested_model: str, system_prompt: str, user_prompt: str) -> tuple[dict, dict]:
-    models_to_try = [requested_model, "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+    models_to_try = [requested_model, "gemini-2.5-flash", "gemini-2.5-pro", "gemini-3.8-flash"]
     seen = set()
     models = []
     for m in models_to_try:
@@ -285,18 +302,26 @@ def query_gemini(api_key: str, requested_model: str, system_prompt: str, user_pr
 
     last_error = None
     for model in models:
-        for use_json_mime in [True, False]:
+        # googleSearch tool use does not support responseMimeType='application/json';
+        # retry on JSONDecodeError with slight temperature increments to escape malformed tokens.
+        for temp in [0.0, 0.1, 0.2]:
             try:
-                print(f"Attempting query with model={model}, responseMimeType={use_json_mime}...")
-                return query_gemini_single_attempt(api_key, model, system_prompt, user_prompt, use_json_mime=use_json_mime)
+                print(f"Attempting query with model={model}, temperature={temp}...")
+                return query_gemini_single_attempt(
+                    api_key, model, system_prompt, user_prompt, use_json_mime=False, temperature=temp
+                )
             except urllib.error.HTTPError as e:
                 err_body = e.read().decode("utf-8", errors="replace")
                 last_error = f"HTTP {e.code} ({model}): {err_body}"
                 print(f"Warning: {last_error}", file=sys.stderr)
-                if e.code == 400 and use_json_mime:
-                    continue
                 if e.code == 404:
                     break
+                if e.code == 400:
+                    break
+            except json.JSONDecodeError as e:
+                last_error = f"JSON parse error ({model}, temp={temp}): {e}"
+                print(f"Warning: {last_error}", file=sys.stderr)
+                continue
             except Exception as e:
                 last_error = str(e)
                 print(f"Warning: Attempt failed ({model}): {e}", file=sys.stderr)
