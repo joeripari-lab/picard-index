@@ -292,7 +292,7 @@ def query_gemini_single_attempt(
 
 
 def query_gemini(api_key: str, requested_model: str, system_prompt: str, user_prompt: str) -> tuple[dict, dict]:
-    models_to_try = [requested_model, "gemini-2.5-flash", "gemini-2.5-pro", "gemini-3.8-flash"]
+    models_to_try = [requested_model, "gemini-2.5-flash", "gemini-3.8-flash", "gemini-3.1-pro-preview"]
     seen = set()
     models = []
     for m in models_to_try:
@@ -303,7 +303,7 @@ def query_gemini(api_key: str, requested_model: str, system_prompt: str, user_pr
     last_error = None
     for model in models:
         # googleSearch tool use does not support responseMimeType='application/json';
-        # retry on JSONDecodeError with slight temperature increments to escape malformed tokens.
+        # retry on JSONDecodeError or empty/missing parts with slight temperature increments.
         for temp in [0.0, 0.1, 0.2]:
             try:
                 print(f"Attempting query with model={model}, temperature={temp}...")
@@ -314,12 +314,10 @@ def query_gemini(api_key: str, requested_model: str, system_prompt: str, user_pr
                 err_body = e.read().decode("utf-8", errors="replace")
                 last_error = f"HTTP {e.code} ({model}): {err_body}"
                 print(f"Warning: {last_error}", file=sys.stderr)
-                if e.code == 404:
+                if e.code in (400, 404):
                     break
-                if e.code == 400:
-                    break
-            except json.JSONDecodeError as e:
-                last_error = f"JSON parse error ({model}, temp={temp}): {e}"
+            except (json.JSONDecodeError, ValueError) as e:
+                last_error = f"Response/JSON error ({model}, temp={temp}): {e}"
                 print(f"Warning: {last_error}", file=sys.stderr)
                 continue
             except Exception as e:
