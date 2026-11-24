@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.4.0",
+  "schemaVersion": "2.5.0",
   "canonicalRules": {
     "pfaBaseline": 75.0,
     "standardDailyCap": 0.5,
@@ -9,6 +9,11 @@
     "memeSectorMaxNetDelta": 0.2,
     "memeCanTriggerTceOrTfe": false,
     "cascadingNonsenseMultiplier": 1.5,
+    "tceWindowDays": 7,
+    "tceWindowMultiplier": 1.25,
+    "tceWindowDailyPositiveCap": 0.63,
+    "tceWindowExcludesMeme": true,
+    "tceWindowMatchingSectorsOnly": true,
     "requiredSectors": [
       "POL",
       "ECON",
@@ -89,8 +94,16 @@
       "twentyFourteenNullCheckPassed": true,
       "thirtyDayDriftStressTestPassed": true,
       "auditor": "Joe / Engine Governance"
+    },
+    {
+      "date": "2026-11-23",
+      "changeSummary": "Enacted v2.5.0 7-Day TCE Convergence Window: 1.25x multiplier on positive realignment items in matching structural sectors (positive cap +0.63%, MEME excluded, does not apply to TFEs, auto-closes if TCE dissolved in hindsight).",
+      "directionalSymmetryPassed": true,
+      "twentyFourteenNullCheckPassed": true,
+      "thirtyDayDriftStressTestPassed": true,
+      "auditor": "Joe / Engine Governance"
     }
   ],
-  "engineSha256": "688623179e9fc4c3206160d41a16ee20da539e9fa0ee9c8f55d94e83af894b1f",
-  "promptTemplateSha256": "bb2c8b0d88ed79d060987f2fce9d236b5e205410100a7e33bc3f0d3e2b6ab19e"
+  "engineSha256": "af466ddf00d1c449f61635c4f2c172f17ccf5ef1f495ee6713f32201a6b7c0f5",
+  "promptTemplateSha256": "532eaa286a0e9766d715020f74f558ab9746e1636dc574f292c7332c3ea5710c"
 }

@@ -4,6 +4,21 @@ All notable changes to **The Picard Index (Temporal Parity & Reality Audit)** en
 
 ---
 
+## [2.5.0] — 2026-11-23
+
+### Added
+- **7-Day TCE Convergence Window (`update_parity.py`, `engine_lock.json`)**:
+  - A cleared `TCE` now opens a 7-day Convergence Window applying a deterministic `1.25x` multiplier to positive realignment items in matching structural sectors (raising the positive daily cap from `+0.50%` to `+0.63%`, while keeping the negative floor at `-0.50%`).
+  - `MEME` is excluded from the multiplier, `TFE`s never open a window, and the window auto-closes if the triggering `TCE` is marked `DISSOLVED` in a Weekly Hindsight Audit.
+- **Event Types & Acronyms Reference (`index.html`)**:
+  - Added Section 6 to the About modal documenting `STANDARD_DAY`, `WINDOW_HOLD`, `TCE`, `TFE`, `TFE_ORIGIN`, `PFA`, `HISTORIC_EPOCH`, Weekly Hindsight verdicts, and cryptographic provenance terms.
+
+### Changed
+- **Anti-Tampering Engine Lock v2.5.0**:
+  - Updated `engineSha256` to `af466ddf00d1c449f61635c4f2c172f17ccf5ef1f495ee6713f32201a6b7c0f5` and `promptTemplateSha256` to `532eaa286a0e9766d715020f74f558ab9746e1636dc574f292c7332c3ea5710c`.
+
+---
+
 ## [2.4.0] — 2026-11-23
 
 ### Added

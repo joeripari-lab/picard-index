@@ -76,6 +76,9 @@ def build_system_rules_prompt(rules: dict, is_weekly_audit: bool = False, target
     meme_cap = rules.get("memeSectorMaxItemDelta", 0.15)
     meme_net_cap = rules.get("memeSectorMaxNetDelta", 0.20)
     mult = rules.get("cascadingNonsenseMultiplier", 1.5)
+    tce_days = rules.get("tceWindowDays", 7)
+    tce_mult = rules.get("tceWindowMultiplier", 1.25)
+    tce_pos_cap = rules.get("tceWindowDailyPositiveCap", 0.63)
     rev_cap = rules.get("weeklyHindsightMaxReversionDelta", 0.30)
     allowed_domains = ", ".join(rules.get("allowedSourceDomains", []))
     allowed_meme_domains = ", ".join(rules.get("allowedMemeDomains", []))
@@ -83,7 +86,7 @@ def build_system_rules_prompt(rules: dict, is_weekly_audit: bool = False, target
     weekly_instructions = ""
     if is_weekly_audit:
         weekly_instructions = f"""
---- WEEKLY HINDSIGHT AUDIT (CANONICAL ENGINE LOCK v2.4.0) ---
+--- WEEKLY HINDSIGHT AUDIT (CANONICAL ENGINE LOCK v2.5.0) ---
 Day {target_day} marks a 7-day Weekly Hindsight Audit milestone (Cycle {target_day // 7})!
 In addition to daily wire ingestion, you MUST perform a retrospective audit of structural events (excluding MEME) scored across the trailing 7 days (Days {target_day - 6} to {target_day - 1}).
 Identify whether any previously scored developments have since been stayed by courts, walked back by officials, debunked, or failed Prong 3 (Irreversible Structural Permanence) in hindsight.
@@ -110,10 +113,11 @@ You must populate the "weeklyHindsight" object:
     return f"""You are the autonomous telemetry engine for The Picard Index (Temporal Parity & Reality Audit).
 Your role is to ingest the past 24 hours of global news, evaluate it under strict temporal audit rules, and produce the next day's telemetry entry in valid JSON format.
 
---- CANONICAL ENGINE RULES (LOCKED v2.4.0) ---
+--- CANONICAL ENGINE RULES (LOCKED v2.5.0) ---
 - Sovereign Anchor: Picard's Final Act (PFA) on 2026-10-28 set a non-repeatable dynamic sovereign baseline at {pfa_base}%.
 - Baseline Waterline: {pfa_base}%.
 - Standard daily cap: Net daily delta is strictly capped between -{daily_cap}% and +{daily_cap}%. Individual standard sector items are capped at +/-{item_cap}%. Low signal days hold at 0.0% (Noise Floor).
+- {tce_days}-Day TCE Convergence Window: A cleared Temporal Convergence Event (TCE) opens a {tce_days}-day window applying a {tce_mult}x multiplier (enforced by Python) to corresponding positive realignment items in matching structural sectors (positive daily cap +{tce_pos_cap}%, MEME excluded). Does NOT apply to TFEs.
 - 1.5x Cascading Nonsense Policy Multiplier: Contradictory policies receive a {mult}x negative drag (-0.25% to -0.75% base) if cleared by Strict Scrutiny.
 - Weekly Hindsight Audit: 7-day retrospective permanence reconciliation bounded to +/-{rev_cap}% (applies to the 7 structural sectors; MEME is ephemeral and excluded).
 {weekly_instructions}
@@ -339,11 +343,62 @@ def _is_source_verified(item: dict, canonical_rules: dict, grounding_info: dict 
     return True
 
 
+def get_active_tce_window(logs: list[dict], target_day: int, canonical_rules: dict) -> dict | None:
+    """
+    Returns active 7-day TCE Convergence Window metadata if a TCE occurred within
+    the trailing tceWindowDays and was not dissolved by a subsequent Weekly Hindsight Audit.
+    TFEs never open a window.
+    """
+    window_days = int(canonical_rules.get("tceWindowDays", 7))
+    matching_only = bool(canonical_rules.get("tceWindowMatchingSectorsOnly", True))
+    excludes_meme = bool(canonical_rules.get("tceWindowExcludesMeme", True))
+    structural_sectors = [
+        s for s in canonical_rules.get("requiredSectors", ["POL", "ECON", "TECH", "SOC", "GLOB", "SCI", "LAW", "MEME"])
+        if not (excludes_meme and s == "MEME")
+    ]
+
+    dissolved_days = set()
+    for log in logs:
+        wh = log.get("weeklyHindsight")
+        if isinstance(wh, dict):
+            for audited in wh.get("auditedItems", []):
+                if audited.get("verdict") == "DISSOLVED" and "originalDay" in audited:
+                    dissolved_days.add(int(audited["originalDay"]))
+
+    for log in reversed(logs):
+        log_day = int(log.get("day", -999))
+        age = target_day - log_day
+        if age <= 0 or age > window_days:
+            continue
+        if log.get("eventType") == "TCE" and log_day not in dissolved_days:
+            if matching_only:
+                sectors = sorted({
+                    item.get("sector")
+                    for item in log.get("sectorFeed", [])
+                    if float(item.get("delta", 0.0)) > 0
+                    and item.get("sector") in structural_sectors
+                })
+                if not sectors:
+                    sectors = structural_sectors
+            else:
+                sectors = structural_sectors
+
+            return {
+                "active": True,
+                "tceDay": log_day,
+                "dayOfWindow": age,
+                "remainingDays": window_days - age + 1,
+                "matchingSectors": sectors,
+            }
+    return None
+
+
 def validate_and_clamp_log_entry(
     entry: dict,
     previous_log: dict,
     canonical_rules: dict,
     grounding_info: dict | None = None,
+    active_tce_window: dict | None = None,
 ) -> dict:
     required_keys = [
         "day", "date", "label", "eventType", "previous", "current",
@@ -373,10 +428,14 @@ def validate_and_clamp_log_entry(
         missing = required_sectors - sectors_present
         raise ValueError(f"Sector feed missing required sectors: {missing}")
 
-    # Enforce per-item caps and verify sourceUrl against domain allowlists
+    # Enforce per-item caps, verify sourceUrl against domain allowlists, and apply TCE window multiplier
     meme_item_cap = float(canonical_rules.get("memeSectorMaxItemDelta", 0.15))
     meme_net_cap = float(canonical_rules.get("memeSectorMaxNetDelta", 0.20))
     std_item_cap = float(canonical_rules.get("maxStandardItemDelta", 0.25))
+    tce_mult = float(canonical_rules.get("tceWindowMultiplier", 1.25))
+    tce_active = bool(active_tce_window and active_tce_window.get("active"))
+    tce_sectors = set(active_tce_window.get("matchingSectors", [])) if tce_active else set()
+    tce_excludes_meme = bool(canonical_rules.get("tceWindowExcludesMeme", True))
 
     for item in sector_feed:
         sector = item.get("sector")
@@ -389,7 +448,14 @@ def validate_and_clamp_log_entry(
             continue
 
         cap = meme_item_cap if sector == "MEME" else std_item_cap
-        item["delta"] = round(max(-cap, min(cap, raw_val)), 2)
+        clamped = round(max(-cap, min(cap, raw_val)), 2)
+
+        if tce_active and clamped > 0 and sector in tce_sectors and not (tce_excludes_meme and sector == "MEME"):
+            boosted = round(clamped * tce_mult, 2)
+            max_boosted_item = round(std_item_cap * tce_mult, 2)
+            item["delta"] = min(max_boosted_item, boosted)
+        else:
+            item["delta"] = clamped
 
     # Enforce MEME net sector cap (+/- 0.20% default)
     meme_items = [item for item in sector_feed if item.get("sector") == "MEME"]
@@ -434,6 +500,7 @@ def validate_and_clamp_log_entry(
     )
 
     cap_limit = float(canonical_rules.get("standardDailyCap", 0.5))
+    pos_cap_limit = float(canonical_rules.get("tceWindowDailyPositiveCap", 0.63)) if tce_active else cap_limit
     requested_event_type = entry.get("eventType", "STANDARD_DAY")
 
     if all_prongs_cleared and requested_event_type != "STANDARD_DAY":
@@ -442,8 +509,8 @@ def validate_and_clamp_log_entry(
         capped = False
     else:
         entry["eventType"] = "STANDARD_DAY"
-        if raw_delta > cap_limit:
-            daily_delta = cap_limit
+        if raw_delta > pos_cap_limit:
+            daily_delta = pos_cap_limit
             capped = True
         elif raw_delta < -cap_limit:
             daily_delta = -cap_limit
@@ -451,6 +518,14 @@ def validate_and_clamp_log_entry(
         else:
             daily_delta = raw_delta
             capped = False
+
+    if tce_active and entry["eventType"] == "STANDARD_DAY":
+        entry["tceWindowActive"] = True
+        entry["tceWindowDay"] = active_tce_window["tceDay"]
+        entry["tceWindowRemainingDays"] = active_tce_window["remainingDays"]
+        entry["tceWindowSectors"] = active_tce_window["matchingSectors"]
+    else:
+        entry["tceWindowActive"] = False
 
     # Enforce Weekly Hindsight Reversion Delta if present
     weekly_hindsight = entry.get("weeklyHindsight")
@@ -537,7 +612,30 @@ def run_dry_run_check(canonical_rules: dict):
     assert "[UNVERIFIED SOURCE ZEROED]" in validated["sectorFeed"][1]["headline"]
     meme_sum = round(sum(float(x["delta"]) for x in validated["sectorFeed"] if x["sector"] == "MEME"), 2)
     assert abs(meme_sum) <= 0.20, f"MEME net sum {meme_sum} exceeded 0.20 cap"
-    print("DRY RUN PASSED: All deterministic caps, source allowlists, MEME bounds, and math invariants verified.")
+
+    # Verify 7-Day TCE Convergence Window multiplier (1.25x on matching structural sector, +0.63% cap, MEME excluded)
+    tce_history = [
+        {
+            "day": 6,
+            "date": "2026-11-23",
+            "eventType": "TCE",
+            "sectorFeed": [{"sector": "LAW", "delta": 2.5}],
+        }
+    ]
+    active_win = get_active_tce_window(tce_history, 7, canonical_rules)
+    assert active_win and active_win["active"] is True and active_win["matchingSectors"] == ["LAW"]
+    tce_sample = json.loads(json.dumps(sample_entry))
+    # Reset sample deltas so LAW gets 0.20 -> 0.25 (1.25x) and positive cap is +0.63
+    tce_sample["sectorFeed"][12]["delta"] = 0.20  # LAW
+    tce_validated = validate_and_clamp_log_entry(tce_sample, prev_log, canonical_rules, active_tce_window=active_win)
+    assert tce_validated["tceWindowActive"] is True
+    assert tce_validated["sectorFeed"][12]["delta"] == 0.25, f"Expected 1.25x LAW boost 0.25, got {tce_validated['sectorFeed'][12]['delta']}"
+    assert tce_validated["delta"] == 0.63, f"Expected TCE window positive cap 0.63, got {tce_validated['delta']}"
+    # Verify TFE never opens a window
+    tfe_history = [{"day": 6, "date": "2026-11-23", "eventType": "TFE", "sectorFeed": [{"sector": "LAW", "delta": -4.0}]}]
+    assert get_active_tce_window(tfe_history, 7, canonical_rules) is None
+
+    print("DRY RUN PASSED: All deterministic caps, source allowlists, MEME bounds, TCE window, and math invariants verified.")
 
 
 def main():
@@ -579,6 +677,14 @@ def main():
         print(f"Target date {target_date} is in the future (UTC today: {today_utc}). Skipping run.")
         sys.exit(0)
 
+    active_tce_window = get_active_tce_window(logs, target_day, canonical_rules)
+    if active_tce_window:
+        print(
+            f"Active TCE Convergence Window: Triggered Day {active_tce_window['tceDay']} "
+            f"(Day {active_tce_window['dayOfWindow']}/{canonical_rules.get('tceWindowDays', 7)}, "
+            f"Sectors: {active_tce_window['matchingSectors']})"
+        )
+
     print(f"Previous entry: Day {latest_log['day']} ({latest_log['date']}) @ {latest_log['current']}%")
     print(f"Targeting: Day {target_day} ({target_date}) [Weekly Hindsight Audit: {'ACTIVE' if is_weekly_audit else 'OFF'}]")
 
@@ -606,12 +712,14 @@ Generate the telemetry record for Day {target_day} strictly adhering to:
     raw_entry, grounding_info = query_gemini(api_key, model, system_prompt, user_prompt)
     print("Gemini response received. Validating schema, source allowlists, and enforcing caps...")
 
-    validated_entry = validate_and_clamp_log_entry(raw_entry, latest_log, canonical_rules, grounding_info=grounding_info)
+    validated_entry = validate_and_clamp_log_entry(
+        raw_entry, latest_log, canonical_rules, grounding_info=grounding_info, active_tce_window=active_tce_window
+    )
     telemetry["logs"].append(validated_entry)
 
     print(f"Atomic update: Writing Day {validated_entry['day']} -> Parity {validated_entry['current']}% (Delta: {validated_entry['delta']:+0.2f}%)")
     atomic_save_telemetry(TELEMETRY_PATH, telemetry)
-    print("Telemetry successfully updated and verified under Anti-Tampering Engine Lock v2.4.0.")
+    print("Telemetry successfully updated and verified under Anti-Tampering Engine Lock v2.5.0.")
 
 
 if __name__ == "__main__":

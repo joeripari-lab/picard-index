@@ -706,7 +706,7 @@
       <div class="brand-title">
         <div>
           <h1>THE PICARD INDEX <span style="color:var(--text-muted)">//</span> TEMPORAL PARITY</h1>
-          <div class="sub">8-SECTOR NEUTRAL WIRE & CULTURE AGGREGATOR • ANTI-TAMPER ENGINE LOCK v2.4.0</div>
+          <div class="sub">8-SECTOR NEUTRAL WIRE & CULTURE AGGREGATOR • ANTI-TAMPER ENGINE LOCK v2.5.0</div>
         </div>
       </div>
 
@@ -809,7 +809,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--prime-green)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             TIMELINE VITAL STATS
           </span>
-          <span class="badge badge-purple" id="activeWindowBadge">LOCK v2.4.0</span>
+          <span class="badge badge-purple" id="activeWindowBadge">LOCK v2.5.0</span>
         </div>
 
         <div class="vitals-grid">
@@ -832,8 +832,8 @@
         </div>
 
         <div style="background: rgba(179,102,255,0.03); border: 1px solid var(--border-accent); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-mono);">
-          <div style="color: var(--meme-purple); font-weight: bold; margin-bottom: 0.1rem;">ENGINE LOCK v2.4.0</div>
-          <div style="color: var(--text-muted); font-size: 0.65rem;" id="windowStatusDetail">8 Balanced Sectors (incl. LAW & MEME wildcard). Domain allowlist & ECDSA P-256 provenance active.</div>
+          <div style="color: var(--meme-purple); font-weight: bold; margin-bottom: 0.1rem;">ENGINE LOCK v2.5.0</div>
+          <div style="color: var(--text-muted); font-size: 0.65rem;" id="windowStatusDetail">8 Balanced Sectors (incl. LAW & MEME wildcard). 7-Day TCE Convergence Window & ECDSA P-256 provenance active.</div>
         </div>
       </div>
 
@@ -1111,10 +1111,23 @@
           If an event dissolved, was stayed by a court, or proved to be non-binding posturing, the engine applies a bounded <strong>Reversion Adjustment</strong> (capped at <strong>+/-0.30%</strong>) and publishes the recorded itemized reasoning directly in the public dashboard ledger.
         </p>
 
-        <div class="about-subtitle">5. Anti-Tampering Engine Lock v2.4.0</div>
+        <div class="about-subtitle">5. Anti-Tampering Engine Lock v2.5.0</div>
         <p>
-          All scoring rules, caps, domain allowlists, prongs, and weekly hindsight parameters are cryptographically sealed in <code>engine_lock.json</code> using SHA-256 (<code>688623179e9fc4c3...</code>) alongside a prompt template lock (<code>bb2c8b0d88ed79d0...</code>), and signed per-run with ECDSA P-256 (<code>attestation.json</code>). Any manual alteration or prompt tampering immediately fails both CI/CD and in-browser provenance verification.
+          All scoring rules, caps, domain allowlists, TCE window multipliers, prongs, and weekly hindsight parameters are cryptographically sealed in <code>engine_lock.json</code> using SHA-256 (<code>af466ddf00d1c449...</code>) alongside a prompt template lock (<code>532eaa286a0e9766...</code>), and signed per-run with ECDSA P-256 (<code>attestation.json</code>). Any manual alteration or prompt tampering immediately fails both CI/CD and in-browser provenance verification.
         </p>
+
+        <div class="about-subtitle">6. Event Types, Windows &amp; Acronyms</div>
+        <ul style="padding-left:1.2rem; font-size:0.76rem; display:flex; flex-direction:column; gap:0.25rem;">
+          <li><strong>STANDARD_DAY:</strong> Normal daily ingestion cycle with net parity movement strictly capped between <code>-0.50%</code> and <code>+0.50%</code> (<code>+/-0.25%</code> per structural item; <code>+/-0.15%</code> per <code>MEME</code> item, <code>+/-0.20%</code> <code>MEME</code> net).</li>
+          <li><strong>WINDOW_HOLD:</strong> Low-signal / Noise Floor day (<code>0.0%</code> delta) where no qualifying developments moved parity.</li>
+          <li><strong>TCE (Temporal Convergence Event):</strong> Extraordinary positive structural breakthrough (<code>+2.0%</code> to <code>+5.0%</code>) clearing all 4 Strict Scrutiny prongs. Opens a <strong>7-Day TCE Convergence Window</strong> applying a <code>1.25x</code> multiplier to matching structural realignment items (raising the positive daily cap to <code>+0.63%</code>; <code>MEME</code> excluded; auto-closes if dissolved in hindsight).</li>
+          <li><strong>TFE (Temporal Fracture Event):</strong> Extraordinary negative systemic rupture (<code>-3.0%</code> to <code>-15.0%</code>) clearing all 4 Strict Scrutiny prongs. Weighted heavier inherently and does <em>not</em> open a 7-day window.</li>
+          <li><strong>TFE_ORIGIN:</strong> Epoch 0 rupture (<code>2016-05-28</code>, Harambe Incident) dropping Prime Continuity from <code>100.0%</code> to <code>0.0%</code> and initiating the Separation Era.</li>
+          <li><strong>PFA (Picard's Final Act):</strong> Non-repeatable sovereign baseline reset (<code>+67.5%</code> on <code>2026-10-28</code>) anchoring the timeline waterline at <code>75.0%</code> (The Picard Standard).</li>
+          <li><strong>HISTORIC_EPOCH:</strong> Reconstructed pre-PFA historical milestones (<code>2016–2026</code>) charting the Separation Era arc.</li>
+          <li><strong>Hindsight Verdicts:</strong> <code>AFFIRMED_PERMANENT</code> (Prong 3 held), <code>PARTIAL_REVERSION</code> (partially walked back), and <code>DISSOLVED</code> (failed Prong 3; reverted up to <code>+/-0.30%</code>).</li>
+          <li><strong>Cryptographic Provenance:</strong> <code>SHA-256</code> seals engine rules &amp; prompt templates; <code>ECDSA P-256</code> signs <code>attestation.json</code> for zero-trust Web Crypto verification.</li>
+        </ul>
       </div>
 
       <div style="display:flex; justify-content:flex-end;">
@@ -1135,6 +1148,18 @@
       </div>
 
       <div class="about-section" style="max-height: 60vh; overflow-y: auto; padding-right: 0.5rem;">
+        <div style="border-left: 3px solid var(--tce-cyan); padding-left: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--tce-cyan); font-family:var(--font-mono); font-size:0.85rem;">VERSION 2.5.0</strong>
+            <span class="badge badge-dim">2026-11-23</span>
+          </div>
+          <ul style="padding-left:1rem; margin-top:0.3rem; font-size:0.78rem;">
+            <li><strong>7-Day TCE Convergence Window</strong>: Cleared TCEs open a 7-day window applying a <code>1.25x</code> multiplier to matching structural realignment items (<code>+0.63%</code> positive cap; <code>MEME</code> excluded; no TFE window; auto-closes if dissolved).</li>
+            <li><strong>Event Types &amp; Acronyms Reference</strong>: Added Section 6 to the About modal documenting all event types, hindsight verdicts, and cryptographic provenance terms.</li>
+            <li><strong>Anti-Tamper Lock v2.5.0</strong>: Updated <code>engineSha256</code> to <code>af466ddf00d1c449...</code> and <code>promptTemplateSha256</code> to <code>532eaa286a0e9766...</code>.</li>
+          </ul>
+        </div>
+
         <div style="border-left: 3px solid var(--prime-green); padding-left: 0.75rem; margin-bottom: 0.75rem;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <strong style="color:var(--prime-green); font-family:var(--font-mono); font-size:0.85rem;">VERSION 2.4.0</strong>
@@ -1424,6 +1449,13 @@
       }`;
 
       document.getElementById('capStatusText').innerText = log.capped ? `CAPPED AT ${log.capLimit}% (RAW ${log.rawDelta}%)` : `UNCAPPED / DIRECT APPLIED`;
+
+      const winDetail = document.getElementById('windowStatusDetail');
+      if (winDetail) {
+        winDetail.innerText = log.tceWindowActive
+          ? `ACTIVE TCE WINDOW (Day ${log.tceWindowDay} • ${log.tceWindowRemainingDays}d left • 1.25x on ${(log.tceWindowSectors || []).join(', ')})`
+          : '8 Balanced Sectors (incl. LAW & MEME wildcard). 7-Day TCE Convergence Window & ECDSA P-256 provenance active.';
+      }
       
       const progressFill = document.getElementById('progressBarFill');
       progressFill.style.width = `${Math.min(100, Math.max(0, log.current))}%`;
