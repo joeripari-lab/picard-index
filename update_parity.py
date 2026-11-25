@@ -207,17 +207,22 @@ def atomic_save_telemetry(path: str, data: dict):
 
 
 def extract_grounding_info(candidate: dict) -> dict:
-    """Extracts web URIs and titles from Gemini groundingMetadata.groundingChunks."""
+    """Extracts web URIs, titles, and URI->title mapping from Gemini groundingMetadata.groundingChunks."""
     chunks = candidate.get("groundingMetadata", {}).get("groundingChunks", [])
     uris = set()
     titles = set()
+    uri_to_title = {}
     for chunk in chunks:
         web = chunk.get("web", {})
-        if web.get("uri"):
-            uris.add(web["uri"].strip())
-        if web.get("title"):
-            titles.add(web["title"].strip().lower())
-    return {"uris": uris, "titles": titles}
+        uri = (web.get("uri") or "").strip()
+        title = (web.get("title") or "").strip().lower()
+        if uri:
+            uris.add(uri)
+        if title:
+            titles.add(title)
+        if uri and title:
+            uri_to_title[uri] = title
+    return {"uris": uris, "titles": titles, "uri_to_title": uri_to_title}
 
 
 def _parse_json_lenient(text_content: str) -> dict:
@@ -337,6 +342,22 @@ def _domain_matches(host: str, allowlist: list[str]) -> bool:
     return any(clean_host == d or clean_host.endswith("." + d) for d in allowlist)
 
 
+def _resolve_grounding_redirect(url: str) -> str:
+    """Resolves Google Vertex AI grounding redirect URLs to their final destination URL."""
+    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "PicardIndexVerifier/2.5"})
+    try:
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            return resp.geturl() or url
+    except urllib.error.HTTPError as e:
+        # Even if the destination site returns 403/405 to HEAD, e.geturl() holds the final redirected URL.
+        final_url = e.geturl()
+        if final_url and "vertexaisearch.cloud.google.com" not in final_url:
+            return final_url
+        return url
+    except Exception:
+        return url
+
+
 def _is_source_verified(item: dict, canonical_rules: dict, grounding_info: dict | None) -> bool:
     url = (item.get("sourceUrl") or "").strip()
     if not url:
@@ -350,6 +371,19 @@ def _is_source_verified(item: dict, canonical_rules: dict, grounding_info: dict 
         allowlist = canonical_rules.get("allowedMemeDomains", [])
     else:
         allowlist = canonical_rules.get("allowedSourceDomains", [])
+
+    # Resolve Gemini grounding redirect URLs to the real publisher domain
+    if parsed.netloc.lower() == "vertexaisearch.cloud.google.com":
+        resolved_url = _resolve_grounding_redirect(url)
+        if resolved_url != url:
+            item["sourceUrl"] = resolved_url
+            url = resolved_url
+            parsed = urllib.parse.urlparse(url)
+        elif grounding_info:
+            grounded_title = grounding_info.get("uri_to_title", {}).get(url, "")
+            if _domain_matches(grounded_title, allowlist):
+                return True
+            return False
 
     if not _domain_matches(parsed.netloc, allowlist):
         return False
@@ -657,6 +691,20 @@ def run_dry_run_check(canonical_rules: dict):
     # Verify TFE never opens a window
     tfe_history = [{"day": 6, "date": "2026-11-23", "eventType": "TFE", "sectorFeed": [{"sector": "LAW", "delta": -4.0}]}]
     assert get_active_tce_window(tfe_history, 7, canonical_rules) is None
+
+    # Verify grounding redirect URL fallback using uri_to_title
+    redirect_good = {"sector": "POL", "delta": 0.1, "sourceUrl": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/good"}
+    redirect_bad = {"sector": "POL", "delta": 0.1, "sourceUrl": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/bad"}
+    mock_grounding = {
+        "uris": set(),
+        "titles": {"afp.com", "random-blog.example.com"},
+        "uri_to_title": {
+            redirect_good["sourceUrl"]: "afp.com",
+            redirect_bad["sourceUrl"]: "random-blog.example.com",
+        },
+    }
+    assert _is_source_verified(redirect_good, canonical_rules, mock_grounding) is True
+    assert _is_source_verified(redirect_bad, canonical_rules, mock_grounding) is False
 
     print("DRY RUN PASSED: All deterministic caps, source allowlists, MEME bounds, TCE window, and math invariants verified.")
 
